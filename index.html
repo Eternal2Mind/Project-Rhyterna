@@ -1,18 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eteraeon | Lex Rhyterna</title>
     <style>
-        body { background-color: #050505; color: #00ffcc; font-family: 'Courier New', Courier, monospace; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; }
-        h1 { font-size: 3rem; text-shadow: 0 0 10px #00ffcc; }
-        p { font-size: 1.2rem; opacity: 0.8; }
+        body { 
+            background-color: #050505; 
+            color: #00ffcc; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Daha modern bir font */
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            margin: 0; 
+            overflow: hidden; /* Kaydırma çubuklarını gizler */
+        }
+
+        /* Arka plana hafif bir ışık efekti */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,255,204,0.05) 0%, rgba(0,0,0,1) 70%);
+            z-index: -1;
+        }
+
+        .container {
+            text-align: center;
+            border: 1px solid rgba(0, 255, 204, 0.2);
+            padding: 3rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px); /* Cam efekti */
+        }
+
+        h1 { 
+            font-size: 4rem; 
+            margin: 0;
+            letter-spacing: 10px;
+            text-shadow: 0 0 20px #00ffcc;
+            animation: pulse 2s infinite alternate; /* Başlık parlayıp sönecek */
+        }
+
+        p { 
+            font-size: 1.1rem; 
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7; 
+            margin-top: 20px;
+        }
+
+        /* Basit bir animasyon: Ritim duygusu katar */
+        @keyframes pulse {
+            from { text-shadow: 0 0 10px #00ffcc; transform: scale(1); }
+            to { text-shadow: 0 0 30px #00ffcc, 0 0 40px #00ff66; transform: scale(1.02); }
+        }
     </style>
 </head>
 <body>
-    <div>
+    <div class="container">
         <h1>ETERAEON</h1>
-        <p>Lex Rhyterna - Rhythm Action Experience</p>
-        <p>System Online. Under Development.</p>
+        <p>Lex Rhyterna</p>
+        <div style="height: 2px; background: #00ffcc; width: 50px; margin: 20px auto; opacity: 0.5;"></div>
+        <p style="font-size: 0.9rem;">System Online // Under Development</p>
     </div>
 </body>
 </html>
