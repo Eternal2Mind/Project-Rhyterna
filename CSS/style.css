@@ -1,0 +1,104 @@
+html {
+  scroll-behavior: smooth;                                          /* It is for smooth scroll when a link is opened(for same page up/down) */
+}
+
+body { 
+    background-color: #000000; 
+    color: #00FFC3; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;   /* Modern fonts */
+    
+    display: flex;                                                  /* It arranges the content in the center of the screen. */
+    align-items: normal;                                            /* Spreads everything top to bottom */
+    justify-content: 'normal';                                      /* The contents start from top */
+    
+    height: 100vh;                                                  /* It locks the page size to 100% of the screen. */
+    margin: 0;                                                      /* Delete auto spaces that comes from browser */
+    overflow: hidden;                                               /* Hides scroll sticks */
+}
+
+.headline {
+    text-align: center;                                             /* It centers all the text horizontally. */
+}
+
+h1 { 
+    font-size: 5rem;                                                /* Title size */
+    margin: 0;                                                      /* Removes unnecessary spaces */
+    letter-spacing: 10px;                                           /* Add more space between the letters */
+    text-shadow: 0 0 20px #00FFC3;                                /* Adds a neon glow to the background of the letters. */
+    /* Animation */
+    animation: pulse 3s infinite alternate;                         /* Repeat continuously movement named Pulse */
+}
+
+p { 
+    font-size: 1.1rem;                                              /* standart reading font size */
+    text-transform: uppercase;                                      /* Turns every letter to uppercase form */
+    letter-spacing: 2px;                                            /* add space between letters */
+    opacity: 0.7;                                                   /* Adds opacity to the letters */
+    margin-top: 20px;                                               /* It moves slightly away from above */
+}
+
+/* ---------------------------------------IMLEC----------------------------------------- */
+.cursor-follower {
+  width: 20px;
+  height: 20px;
+  background-color: #00FFC3;                                      /* Color */
+  border-radius: 50%;                                               /* Shape */
+
+    /* 2. Positioning */
+  position: fixed;                                                  /* It will work even if page is moving */
+  top: 0;                                                           /* Constant point for calibration */
+  left: 0;
+  
+    /* 3. Interaction and Layer */
+  pointer-events: none;                                             /* We add this for pseudo-cursor won't block clickings */
+  z-index: 9999;                                                    /* It stands above everything */
+
+    /* 4. Neon Glow */
+  box-shadow: 0 0 10px #00FFC3, 0 0 20px #00FFC3;
+
+    /* 5. Smooth Follow */
+  transition: transform 0.1s ease-out, opacity 0.05s ease-in-out;
+}
+
+    /* For Hover state */
+.cursor-follower.active {
+    transform: scale(1.3);                                          /* Make it 1.3 times bigger */
+    background-color: #FF3300;                                    /* Main Color */
+    box-shadow: 0 0 20px #FF3300, 0 0 40px #FF3300;             /* Make glowing orange */
+    mix-blend-mode: normal;                                         /* For clearer change */
+}
+
+    /* For Active(clicking) state */
+.cursor-follower.clicked1 {
+    transform: scale(0.8);                                          /* It slightly wrinkles inwards */
+    background-color: #02ddaa;                                    /* Color change */
+    transition: transform 0.1s ease;                                /* Speed */
+}
+
+    /* For Active(clicking) 2nd state */
+.cursor-follower.clicked2 {
+    transform: scale(1);                                            /* It slightly wrinkles inwards */
+    background-color: #da2c01;                                    /* Color change */
+    transition: transform 0.1s ease;                                /* Speed */
+}
+
+
+html, body {
+    cursor: none;                                                   /* Hides standart cursor */
+}
+
+a, button {
+    cursor: none;                                                   /* Hides Hand-shape cursor */
+}
+
+/* ---------------------------------------IMLEC----------------------------------------- */
+
+/* Animation */
+@keyframes pulse {
+    from { 
+        text-shadow: 0 0 10px #00FFC3; transform: scale(1);       /* Starting point Little bright and normal size*/
+    }  
+    to { 
+        text-shadow: 0 0 20px #00FFC3, 0 0 30px #00ff66; transform: scale(1.02); /* Ending point and dif color bright %2 bigger */
+    } 
+}
