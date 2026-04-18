@@ -1,104 +1,196 @@
 html {
-  scroll-behavior: smooth;                                          /* It is for smooth scroll when a link is opened(for same page up/down) */
+scroll-behavior: smooth; /* For smooth scrolling */
 }
 
 body { 
-    background-color: #000000; 
-    color: #00FFC3; 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;   /* Modern fonts */
-    
-    display: flex;                                                  /* It arranges the content in the center of the screen. */
-    align-items: normal;                                            /* Spreads everything top to bottom */
-    justify-content: 'normal';                                      /* The contents start from top */
-    
-    height: 100vh;                                                  /* It locks the page size to 100% of the screen. */
-    margin: 0;                                                      /* Delete auto spaces that comes from browser */
-    overflow: hidden;                                               /* Hides scroll sticks */
+background-color: #000000;
+color: #00FFC3;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+display: flex;
+flex-direction: column; /* Arrange elements vertically */
+align-items: center; /* Stretch horizontal alignment */
+justify-content: center; /* Stretch vertical alignment */
+
+height: 100vh; /* Full height */
+margin: 0; /* Remove browser margins */
+overflow: hidden; /* Hide scrollbars */
+
+/* MOBİL UYUMLULUK - EKLENDI */
+padding: 20px; /* Put some space around the content for mobile */
+box-sizing: border-box; /* Add padding to the element's total width and height */
 }
 
 .headline {
-    text-align: center;                                             /* It centers all the text horizontally. */
+text-align: center; /* Align text to the center */
+width: 100%; /* Use full width */
+max-width: 600px; /* Don't exceed 600px on desktop */
 }
 
 h1 { 
-    font-size: 5rem;                                                /* Title size */
-    margin: 0;                                                      /* Removes unnecessary spaces */
-    letter-spacing: 10px;                                           /* Add more space between the letters */
-    text-shadow: 0 0 20px #00FFC3;                                /* Adds a neon glow to the background of the letters. */
-    /* Animation */
-    animation: pulse 3s infinite alternate;                         /* Repeat continuously movement named Pulse */
+font-size: 5rem; /* Main heading size */
+margin: 0; /* Remove margins */
+letter-spacing: 10px; /* Space between letters */
+text-shadow: 0 0 20px #00FFC3; 
+
+/* Pulse animation */
+animation: pulse 3s infinite alternate; /* 3 second animation */
+
+font-size: clamp(2rem, 8vw, 5rem); /* Automatic font size based on viewport width */
 }
 
 p { 
-    font-size: 1.1rem;                                              /* standart reading font size */
-    text-transform: uppercase;                                      /* Turns every letter to uppercase form */
-    letter-spacing: 2px;                                            /* add space between letters */
-    opacity: 0.7;                                                   /* Adds opacity to the letters */
-    margin-top: 20px;                                               /* It moves slightly away from above */
+font-size: 1.1rem; /* Normal writing size */
+text-transform: uppercase; /* Upper case all letters */
+letter-spacing: 2px; /* Space between letters */
+opacity: 0.7; /* 70% opacity */
+margin-top: 20px; /* Top margin of 20px */
+
+font-size: clamp(0.9rem, 4vw, 1.1rem); /* Automatic font size based on viewport width for mobile*/
 }
 
-/* ---------------------------------------IMLEC----------------------------------------- */
+/* ================İMLEC STİLİ================ */
+
 .cursor-follower {
-  width: 20px;
-  height: 20px;
-  background-color: #00FFC3;                                      /* Color */
-  border-radius: 50%;                                               /* Shape */
+width: 16px;
+height: 16px;
+background-color: #00FFC3;
+border-radius: 50%; /* Make it round */
 
-    /* 2. Positioning */
-  position: fixed;                                                  /* It will work even if page is moving */
-  top: 0;                                                           /* Constant point for calibration */
-  left: 0;
-  
-    /* 3. Interaction and Layer */
-  pointer-events: none;                                             /* We add this for pseudo-cursor won't block clickings */
-  z-index: 9999;                                                    /* It stands above everything */
+/* Positioning */
+position: fixed; /* Stay static even if the page scrolls */
+top: 0; /* 0th px from the top */
+left: 0; /* 0th px from the left */
 
-    /* 4. Neon Glow */
-  box-shadow: 0 0 10px #00FFC3, 0 0 20px #00FFC3;
+/* Interaction and Layering */
+pointer-events: none; /* Do not block pointer events */
+z-index: 9999; /* Stay on top of all other elements */
 
-    /* 5. Smooth Follow */
-  transition: transform 0.1s ease-out, opacity 0.05s ease-in-out;
+/* NEON Shine */
+box-shadow: 0 0 10px #00FFC3, 0 0 20px #00FFC3; /* Double layer neon effect */
+
+/* Smooth Movement */
+transition: transform 0.08s ease-out, opacity 0.1s ease-in-out, background-color 0.1s ease; 
 }
 
-    /* For Hover state */
+/* Hover state */
 .cursor-follower.active {
-    transform: scale(1.3);                                          /* Make it 1.3 times bigger */
-    background-color: #FF3300;                                    /* Main Color */
-    box-shadow: 0 0 20px #FF3300, 0 0 40px #FF3300;             /* Make glowing orange */
-    mix-blend-mode: normal;                                         /* For clearer change */
+transform: scale(1.3);
+background-color: #FF3300;
+box-shadow: 0 0 20px #FF3300, 0 0 40px #FF3300;
+mix-blend-mode: normal;
 }
 
-    /* For Active(clicking) state */
+/* Normal Active state */
 .cursor-follower.clicked1 {
-    transform: scale(0.8);                                          /* It slightly wrinkles inwards */
-    background-color: #02ddaa;                                    /* Color change */
-    transition: transform 0.1s ease;                                /* Speed */
+transform: scale(0.8);
+background-color: #02ddaa;
+transition: transform 0.08s ease;
 }
 
-    /* For Active(clicking) 2nd state */
+/* Hover Active state */
 .cursor-follower.clicked2 {
-    transform: scale(1);                                            /* It slightly wrinkles inwards */
-    background-color: #da2c01;                                    /* Color change */
-    transition: transform 0.1s ease;                                /* Speed */
+transform: scale(0.9);
+background-color: #da2c01;
+transition: transform 0.08s ease;
 }
 
-
+/* Hide standard cursor */
 html, body {
-    cursor: none;                                                   /* Hides standart cursor */
+cursor: none;
 }
-
 a, button {
-    cursor: none;                                                   /* Hides Hand-shape cursor */
+cursor: none; /* Hide hand cursor */
 }
 
-/* ---------------------------------------IMLEC----------------------------------------- */
+/* ================ANIMASYON TANIMLAMASI================ */
 
-/* Animation */
 @keyframes pulse {
-    from { 
-        text-shadow: 0 0 10px #00FFC3; transform: scale(1);       /* Starting point Little bright and normal size*/
-    }  
-    to { 
-        text-shadow: 0 0 20px #00FFC3, 0 0 30px #00ff66; transform: scale(1.02); /* Ending point and dif color bright %2 bigger */
-    } 
+from { 
+    /* Start - Weaker light and normal size */
+    text-shadow: 0 0 10px #00FFC3;
+    transform: scale(1);
+}  
+to { 
+    /* End - Stronger light and slightly larger - ENHANCED */
+    text-shadow: 0 0 25px #00FFC3, 0 0 40px #00ff66, 0 0 60px #00FFC3;
+    transform: scale(1.05);
+} 
+}
+
+/* ================MOBİL RESPONSIVE DESİN================ */
+
+/* For tablets and smaller screens */
+@media (max-width: 768px) { /* Tablet */
+body {
+    padding: 15px; /* Less padding */
+}
+
+h1 {
+    letter-spacing: 5px; /* Reduce letter spacing */
+}
+
+p {
+    letter-spacing: 1px; /* Less space between letters */
+}
+.cursor-follower.is-mobile{
+    width: 12px;
+    height: 12px;
+    background-color: #00FFC3;
+    border-radius: 50%;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    pointer-events: none;
+    z-index: 9999;
+
+    box-shadow: 0 0 10px #00FFC3, 0 0 20px #00FFC3;
+    transition: transform 0.4s ease-out, opacity 0.4s ease-in-out, background-color 0.1s ease;
+}
+.cursor-follower.is-hover {
+transform: scale(1);
+background-color: #FF3300;
+box-shadow: 0 0 20px #FF3300, 0 0 40px #FF3300;
+mix-blend-mode: normal;
+}
+
+}
+
+/* For mobile screens */
+@media (max-width: 480px) {
+body {
+    padding: 10px;
+}
+
+.headline {
+    max-width: 100%; /* Use full width */
+}
+
+h1 {
+    letter-spacing: 3px; /* Less space */
+}
+.cursor-follower.is-mobile{
+    width: 12px;
+    height: 12px;
+    background-color: #00FFC3;
+    border-radius: 50%;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    pointer-events: none;
+    z-index: 9999;
+
+    box-shadow: 0 0 10px #00FFC3, 0 0 20px #00FFC3;
+    transition: transform 0.4s ease-out, opacity 0.4s ease-in-out, background-color 0.1s ease;
+}
+.cursor-follower.is-hover {
+transform: scale(1);
+background-color: #FF3300;
+box-shadow: 0 0 20px #FF3300, 0 0 40px #FF3300;
+mix-blend-mode: normal;
+}
 }

@@ -1,33 +1,115 @@
-    const cursor = document.querySelector('.cursor-follower');
+/* Start cursor follower */
+const cursor = document.querySelector('.cursor-follower');
+const interactiveElements = document.querySelectorAll('a, button, [role="button"], .headline');
+if (cursor) {
 
-    if (cursor) {
-        // 1. Basılı tutma durumunu takip eden değişken
-        let isMouseDown = false;
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-        // 2. Fare hareketi (İmleci takip ettir)
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = (e.clientX - 10) + 'px';
-            cursor.style.top = (e.clientY - 10) + 'px';
+    if (isTouchDevice) {
+        let PosX = 0;
+        let PosY = 0;
+
+        cursor.classList.add('is-mobile');
+
+        interactiveElements.forEach(element => {
+            element.addEventListener('touchstart', (e) => {
+                cursor.style.transition = 'opacity 0.01s ease-in-out';
+                cursor.style.opacity = '0.8';
+                cursor.style.transform = 'scale(1)';
+            
+                cursor.classList.add('is-hover');
+
+                PosX = e.touches[0].clientX - 6;
+                PosY = e.touches[0].clientY - 6;
+
+                cursor.style.left = PosX + 'px';
+                cursor.style.top = PosY + 'px';
+            });
+
+            element.addEventListener('touchend', () => {
+                cursor.style.transition = 'opacity 0.6s ease-in-out';
+                cursor.style.opacity = '0';
+                cursor.style.transform = 'scale(0.5)';
+            
+                cursor.classList.remove('is-hover');
+            });
+
+            element.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                PosX = e.touches[0].clientX - 6;
+                PosY = e.touches[0].clientY - 6;
+                
+                cursor.style.left = PosX + 'px';
+                cursor.style.top = PosY + 'px';
+            }});
+        });
+        document.addEventListener('touchstart', (e) => {
+            
+            cursor.style.transition = 'opacity 0.01s ease-in-out';
+            cursor.style.opacity = '0.8';
+            cursor.style.transform = 'scale(1)';
+
+            PosX = e.touches[0].clientX - 6;
+            PosY = e.touches[0].clientY - 6;
+
+            cursor.style.left = PosX + 'px';
+            cursor.style.top = PosY + 'px';
         });
 
-        // 3. Linklerin ve butonların üzerine gelme mantığı
-        const links = document.querySelectorAll('a, button, .headline h1, .headline p');
-        
-        links.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                cursor.classList.add('active');
+        document.addEventListener('touchmove', (e) => {
+            
+            if (e.touches.length > 0) {
+                PosX = e.touches[0].clientX - 6;
+                PosY = e.touches[0].clientY - 6;
                 
-                // YENİ: Eğer fare basılıyken linke girersek clicked2 (turuncu tık) yap
+                cursor.style.left = PosX + 'px';
+                cursor.style.top = PosY + 'px';
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+
+            cursor.style.transition = 'opacity 0.1s ease-in-out';
+            cursor.style.opacity = '0';
+            cursor.style.transform = 'scale(0.5)';
+        });
+
+    } else {
+        let isMouseDown = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        /* 1. ================Mouse movement - Make it follow the mouse================ */
+
+        document.addEventListener('mousemove', (e) => {
+            lastX = e.clientX - 8;
+            lastY = e.clientY - 8;
+
+            /* Calculate new position */
+            cursor.style.left = lastX + 'px';
+            cursor.style.top = lastY + 'px';
+        });
+
+        /* 2. ================Hover effects on links and buttons================ */
+
+        /* Add listener to each element */
+        interactiveElements.forEach(element => {
+            /* When mouse enters the element */
+            element.addEventListener('mouseenter', () => {
+                cursor.classList.add('active'); /* Add active class */
+
+                /* If mouse is down apply clicked2 effect */
                 if (isMouseDown) {
                     cursor.classList.remove('clicked1');
                     cursor.classList.add('clicked2');
                 }
             });
 
-            link.addEventListener('mouseleave', () => {
-                cursor.classList.remove('active');
-                
-                // YENİ: Linkten çıkınca eğer hala basılıysa normal tıklama rengine (clicked1) dön
+            /* When mouse leaves the element */
+            element.addEventListener('mouseleave', () => {
+                cursor.classList.remove('active'); /* Remove active class */
+
+                /* If mouse is down apply clicked1 effect */
                 if (isMouseDown) {
                     cursor.classList.remove('clicked2');
                     cursor.classList.add('clicked1');
@@ -35,10 +117,12 @@
             });
         });
 
-        // 4. Sayfada herhangi bir yerde basma ve bırakma
+        /* 3. ================Random click on page================ */
+
         document.addEventListener('mousedown', () => {
-            isMouseDown = true; // Basılı tutulduğunu hatırla
-            
+            isMouseDown = true; /* Save mouse down state */
+
+            /* If cursor is active, apply clicked2 effect, else apply clicked1 effect */
             if (cursor.classList.contains('active')) {
                 cursor.classList.add('clicked2');
             } else {
@@ -46,20 +130,30 @@
             }
         });
 
+        /* 4. ================Remove effects when mouse is released================ */
+
         document.addEventListener('mouseup', () => {
-            isMouseDown = false; // Bırakıldığını hatırla
-            
-            // Hafif bir gecikmeyle efektleri temizle
-            setTimeout(() => {
-                cursor.classList.remove('clicked1');
-                cursor.classList.remove('clicked2');
-            }, 100);
+            isMouseDown = false; /* Reset mouse down state */
+
+            /* Remove effects */
+            cursor.classList.remove('clicked1');
+            cursor.classList.remove('clicked2');
         });
 
-        // 5. Ekrandan çıkma/girme (Görünürlük)
-        document.addEventListener('mouseleave', () => { cursor.style.opacity = '0'; });
-        document.addEventListener('mouseenter', () => { cursor.style.opacity = '1'; });
+        /* 5. ================Enter/Leave from screen - Show/Hide cursor================ */
 
-    } else {
-        console.error("Hata: '.cursor-follower' bulunamadı!");
+        /* Hide cursor if mouse leaves the document */
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+        });
+
+        /* Show cursor if mouse enters the document */
+        document.addEventListener('mouseenter', () => {
+            cursor.style.opacity = '1';
+        });
+        }
     }
+else {
+    /* Write error message to console if cursor-follower div is not found */
+    console.error("HATA: '.cursor-follower' div'i HTML'de bulunamadı!");
+}
