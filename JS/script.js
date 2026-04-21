@@ -74,7 +74,8 @@ if (cursor) {
     document.addEventListener('mouseenter', () => {
         cursor.style.opacity = '1'; /* Show when entering */
     });
-} else {
+}
+ else {
     /* Error handling */
     console.error("ERROR: '.cursor-follower' element not found in HTML!");
 }

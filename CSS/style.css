@@ -1,5 +1,5 @@
 html {
-    scroll-behavior: smooth; /* Smooth scroll for anchor links */
+    overflow-x: auto;
 }
 
 /* ===== PAGE FADE IN ANIMATION ===== */
@@ -13,48 +13,144 @@ html {
 }
 
 body { 
-    background-color: #000000; /* Black background */
-    color: #00FFC3; /* Turquoise text */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+    background-color: #000000;
+    color: #00FFC3;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-    /* Flexbox layout - Center content */
     display: flex;
-    flex-direction: column; /* Stack vertically */
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
-
-    height: 100vh; /* Full screen height */
-    margin: 0; /* Remove browser margins */
-    overflow: hidden; /* Hide scrollbars */
-    padding: 20px; /* Space around content */
-    box-sizing: border-box; /* Include padding in width/height */
-
-    /* Page load animation */
+    flex-direction: column;
+    min-height: 100vh;
+    min-width: 100vh;
+    margin: 0px;
+    padding: 10px;
+    box-sizing: border-box;
     animation: fadeInPage 0.8s ease-in-out;
 }
 
-.headline {
-    text-align: center; /* Center text */
-    width: 100%; /* Full width */
-    max-width: 600px; /* Max width on desktop */
+.baslik {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    min-width: fit-content;
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-right: 34px;
+    box-sizing: border-box;
+    background-color: #000000;
+    z-index: 1000;
+}   
+
+.logo {
+    display: block;
+    width: 200px; 
+    flex-shrink: 0;
+    padding: 0;
+    margin: 0;
 }
 
-h1 { 
-    font-size: clamp(2rem, 8vw, 5rem); /* Responsive size (min, preferred, max) */
-    margin: 0; /* Remove margins */
-    letter-spacing: 10px; /* Space between letters */
-    text-shadow: 0 0 20px #00FFC3; /* Turquoise glow */
-    
-    /* Pulsing animation */
-    animation: pulse 3s infinite alternate;
+.logo a {
+    text-decoration: none;
+    display: block;
 }
 
-p { 
-    font-size: clamp(0.9rem, 4vw, 1.1rem); /* Responsive size for mobile */
-    text-transform: uppercase; /* All uppercase */
-    letter-spacing: 2px; /* Space between letters */
-    opacity: 0.7; /* 70% transparency */
-    margin-top: 20px; /* Space from h1 */
+.Esnek-Bosluk {
+    flex-grow: 3;
+    max-width: 10vw;
+    min-width: 4vw;
+}
+
+h1 {
+    font-size: 24px;
+    margin: 0;
+    letter-spacing: 5px;
+    color: #00FFC3;
+    text-shadow: 0 0 15px #00FFC3;
+    border: 1px solid #00FFC3;
+    background-color: rgba(0, 255, 195, 0.102);
+    padding: 0 30px;
+    flex-shrink: 0;
+}
+
+h1, .baslik-nav p {
+    height: 60px;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+.baslik-nav {
+    flex: 1; 
+    display: block;
+}
+
+.baslik-nav div {
+    width: 100%;
+    min-width: 200px;
+    max-width:  800px;
+    margin-left: auto;
+    margin-right: 0;
+    height: 60px;
+    display: block;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #9c47c0;
+    background-color: rgba(155, 101, 255, 0.1);
+    box-sizing: border-box;
+    transition: 0.3s ease, text-shadow 0.3s ease;
+}
+
+.baslik-nav a {
+    text-decoration: none;
+    display: block;
+}
+
+.baslik-nav p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin: 0;
+    color: #9c47c0;
+    font-weight: bold;
+    text-shadow: 0 0 10px #9c47c0;
+    white-space: nowrap;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    margin-left : 0px clamp(20px, 10 * (5vw - 7px), 100px ); */
+    box-sizing: border-box;
+    letter-spacing: clamp(0px, 5 * (1vw - 7px), 23px); */
+}
+
+
+/* ===== HOVER STATES ===== */
+
+.logo a:hover h1 {
+    background-color: rgba(84, 255, 215, 0.3);
+    box-shadow: 0 0 20px rgba(84, 255, 215, 0.5);
+    border-color: #00ffaa;
+    transform: scale(1.03);
+    color: #7effd4;
+    text-shadow: 0 0 15px #7effd4;
+    transition: 0.3s ease-out, text-shadow 0.3s ease;
+
+}
+
+.baslik-nav a:hover div {
+    background-color: rgba(155, 101, 255, 0.3);
+    box-shadow: 0 0 30px rgba(155, 101, 255, 0.5);
+    border-color: #bd6df1;
+    transform: scale(1.03); 
+    transition: 0.3s ease-out, text-shadow 0.3s ease;
+}
+
+.baslik-nav a:hover p {
+    color: #deadff;
+    text-shadow: 0 0 15px #deadff;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 /* ===== CURSOR FOLLOWER BASE STYLES ===== */
@@ -84,7 +180,6 @@ p {
 }
 
 /* ===== CURSOR STATES - DESKTOP ===== */
-
 /* Hover over interactive element - Orange */
 .cursor-follower.active {
     transform: scale(1.3); /* Grow 1.3x */
@@ -116,24 +211,10 @@ a, button {
 
 /* ===== ANIMATIONS ===== */
 
-/* H1 pulse effect */
-@keyframes pulse {
-    from { 
-        /* Start - Subtle glow and normal size */
-        text-shadow: 0 0 10px #00FFC3;
-        transform: scale(1);
-    }  
-    to { 
-        /* End - Stronger glow and slightly larger */
-        text-shadow: 0 0 25px #00FFC3, 0 0 40px #00ff66, 0 0 60px #00FFC3;
-        transform: scale(1.05); /* 5% larger */
-    } 
-}
-
 /* ===== RESPONSIVE DESIGN ===== */
 
 /* Tablets and smaller screens */
-@media (max-width: 768px) {
+@media (hover:none) {
     body {
         padding: 15px; /* Reduce padding */
     }
@@ -147,12 +228,12 @@ a, button {
     }
     .cursor-follower:not(.is-mobile) {
         display: none;
-}
+}}
 
 /* Mobile phones */
-@media (max-width: 480px) {
+@media (hover:hover) {
     body {
-        padding: 10px; /* Minimal padding */
+        padding: 10px; /* Minimal padding */ 
     }
 
     .headline {
@@ -163,5 +244,5 @@ a, button {
         letter-spacing: 3px; /* Minimal spacing */
     }
     .cursor-follower:not(.is-mobile) {
-        display: none;
-}
+        display: block;
+}}
