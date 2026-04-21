@@ -120,9 +120,9 @@ h1, .baslik-nav p {
     text-shadow: 0 0 10px #9c47c0;
     white-space: nowrap;
     transition: color 0.3s ease, text-shadow 0.3s ease;
-    margin-left : 0px clamp(20px, 10 * (5vw - 7px), 100px ); */
+    margin-left : 0px clamp(20px, 10 * (5vw - 7px), 100px );
     box-sizing: border-box;
-    letter-spacing: clamp(0px, 5 * (1vw - 7px), 23px); */
+    letter-spacing: clamp(0px, 5 * (1vw - 7px), 23px);
 }
 
 
