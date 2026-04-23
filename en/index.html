@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta information - page version and mobile settings -->
+    <meta charset="UTF-8">
+    <!-- Mobile responsive design for optimal viewing -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    
+    <!-- Page title -->
+    <title>ETERAEON</title>
+    
+    <!-- Connection to CSS stylesheet -->
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+    <!-- ================Main content and description================ -->
+<header class="baslik">
+  <div class="logo">
+    <a href="javascript:void(0)" onclick="document.getElementById('home').scrollIntoView()">
+      <h1>ETERAEON</h1>
+    </a>
+  </div>
+  <div class="Esnek-Bosluk"></div>
+  <nav class="baslik-nav">
+    <a href="javascript:void(0)" onclick="document.getElementById('lex-rhyterna').scrollIntoView()">
+      <div class="baslik-nav-kutusu"><p>LEX RHYTERNA</p></div>
+    </a>
+  </nav>
+</header>
+
+<div id="nav-bar">
+  <div class="nav-segment active" id="seg-0" data-target="home"></div>
+  <div class="nav-segment"        id="seg-1" data-target="lex-rhyterna"></div>
+  <div class="nav-segment"        id="seg-2" data-target="social"></div>
+</div>
+
+<main class="ana">
+  <section id="home"    class="bolum"><h2>ETERAEON</h2></section>
+  <section id="lex-rhyterna" class="bolum"><h2>LEX RHYTERNA</h2></section>
+  <section id="social" class="bolum"><h2>SOCIALS</h2></section>
+</main>
+    <!-- ================Cursor Follow System================ -->
+
+    <!-- Custom cursor element -->
+    <div class="cursor-follower"></div>
+
+    <!-- ================ Connection to JavaScript file ================ -->
+
+    <!-- Script file should be written at the end of the body for optimal loading -->
+    <script src="../JS/script.js"></script>
+</body>
+</html>

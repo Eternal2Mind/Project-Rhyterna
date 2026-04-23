@@ -1,89 +1,123 @@
-/* Start cursor follower system */
-const cursor = document.querySelector('.cursor-follower');
-const interactiveElements = document.querySelectorAll('a, button, [role="button"], .headline');
+// ─── URL Gözlemcisi ──────────────────────────────────────────────────────────
 
-if (cursor) {
-    /* Hide cursor on page load */
-    cursor.style.opacity = '0';
-
-    /* ===== DESKTOP MOUSE DEVICE - ORIGINAL FUNCTIONALITY ===== */
-    let isMouseDown = false;
-    let lastX = 0;
-    let lastY = 0;
-
-    /* 1. Mouse movement - Follow cursor */
-    document.addEventListener('mousemove', (e) => {
-        lastX = e.clientX - 8;
-        lastY = e.clientY - 8;
-
-        cursor.style.opacity = '1'; /* Make visible */
-        cursor.style.left = lastX + 'px';
-        cursor.style.top = lastY + 'px';
-    });
-
-    /* 2. Hover effects on interactive elements */
-    interactiveElements.forEach(element => {
-        /* Mouse enter - Add active class (orange) */
-        element.addEventListener('mouseenter', () => {
-            cursor.classList.add('active');
-
-            /* If mouse is pressed, apply different effect */
-            if (isMouseDown) {
-                cursor.classList.remove('clicked1');
-                cursor.classList.add('clicked2');
-            }
-        });
-
-        /* Mouse leave - Remove active class */
-        element.addEventListener('mouseleave', () => {
-            cursor.classList.remove('active');
-
-            /* If mouse still pressed, apply clicked1 effect */
-            if (isMouseDown) {
-                cursor.classList.remove('clicked2');
-                cursor.classList.add('clicked1');
-            }
-        });
-    });
-
-    /* 3. Mouse down anywhere on page */
-    document.addEventListener('mousedown', () => {
-        isMouseDown = true;
-
-        /* Apply different effects based on cursor state */
-        if (cursor.classList.contains('active')) {
-            cursor.classList.add('clicked2'); /* Orange while over interactive element */
-        } else {
-            cursor.classList.add('clicked1'); /* Green while over normal area */
+const urlGozlemcisi = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+            history.replaceState(null, null, '#' + entry.target.id);
         }
     });
+}, { threshold: 0.6 });
 
-    /* 4. Mouse up - Remove click effects */
+document.querySelectorAll('section').forEach(s => urlGozlemcisi.observe(s));
+
+
+// ─── Cursor Takipçi ──────────────────────────────────────────────────────────
+
+const cursor = document.querySelector('.cursor-follower');
+const interactiveEls = document.querySelectorAll('a, button, [role="button"], .headline');
+
+if (cursor) {
+    cursor.style.opacity = '0';
+
+    let isMouseDown = false;
+
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.opacity = '1';
+        cursor.style.left = (e.clientX - 8) + 'px';
+        cursor.style.top  = (e.clientY - 8) + 'px';
+    });
+
+    interactiveEls.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('active');
+            if (isMouseDown) {
+                cursor.classList.replace('clicked1', 'clicked2');
+            }
+        });
+
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('active');
+            if (isMouseDown) {
+                cursor.classList.replace('clicked2', 'clicked1');
+            }
+        });
+    });
+
+    document.addEventListener('mousedown', () => {
+        isMouseDown = true;
+        cursor.classList.add(cursor.classList.contains('active') ? 'clicked2' : 'clicked1');
+    });
+
     document.addEventListener('mouseup', () => {
         isMouseDown = false;
-
-        cursor.classList.remove('clicked1');
-        cursor.classList.remove('clicked2');
+        cursor.classList.remove('clicked1', 'clicked2');
     });
 
-    /* 5. Mouse leave/enter screen - Show/Hide cursor */
-    document.addEventListener('mouseleave', () => {
-        cursor.style.opacity = '0'; /* Hide when leaving */
-    });
-
-    document.addEventListener('mouseenter', () => {
-        cursor.style.opacity = '1'; /* Show when entering */
-    });
-}
- else {
-    /* Error handling */
-    console.error("ERROR: '.cursor-follower' element not found in HTML!");
+    document.addEventListener('mouseleave', () => { cursor.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { cursor.style.opacity = '1'; });
 }
 
-/* ===== PAGE LOAD ANIMATION ===== */
+
+// ─── Sayfa Yükleme Animasyonu ─────────────────────────────────────────────────
+
 window.addEventListener('load', () => {
-    /* Fade in body on page load */
     document.body.style.opacity = '0';
     document.body.style.transition = 'opacity 2s ease-in-out';
     document.body.style.opacity = '1';
 });
+
+
+// ─── Sol Nav Scroll ───────────────────────────────────────────────────────────
+
+(function () {
+    const scroller = document.querySelector('.ana');
+    const pages    = ['home', 'lex-rhyterna', 'social'];
+    const segments = document.querySelectorAll('.nav-segment');
+
+    const states = [
+        [8, 1, 1],
+        [1, 8, 1],
+        [1, 1, 8],
+    ];
+
+    function lerp(a, b, t) {
+        return a + (b - a) * t;
+    }
+
+    function updateNav() {
+        const els      = pages.map(id => document.getElementById(id));
+        const scrollTop = scroller.scrollTop;
+
+        let fromIdx = 0;
+        let t = 0;
+
+        for (let i = 0; i < els.length - 1; i++) {
+            if (scrollTop >= els[i].offsetTop && scrollTop < els[i + 1].offsetTop) {
+                fromIdx = i;
+                t = (scrollTop - els[i].offsetTop) / (els[i + 1].offsetTop - els[i].offsetTop);
+                break;
+            }
+        }
+
+        if (scrollTop >= els[els.length - 1].offsetTop) {
+            fromIdx = els.length - 1;
+            t = 0;
+        }
+
+        const from = states[fromIdx];
+        const to   = states[Math.min(fromIdx + 1, states.length - 1)];
+
+        segments.forEach((seg, i) => {
+            seg.style.flex = lerp(from[i], to[i], t);
+        });
+    }
+
+    scroller.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    segments.forEach((seg, i) => {
+        seg.addEventListener('click', () => {
+            document.getElementById(pages[i])?.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+})();

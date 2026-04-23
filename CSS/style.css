@@ -1,248 +1,557 @@
+::root {
+
+}
+
 html {
-    overflow-x: auto;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow-x: hidden;
+    -ms-overflow-style: none; /* IE/Edge scroll gizle */
+    scrollbar-width: none;    /* Firefox scroll gizle */
+    scroll-behavior: smooth;
 }
 
-/* ===== PAGE FADE IN ANIMATION ===== */
-@keyframes fadeInPage {
-    from { 
-        opacity: 0; /* Start invisible */
-    }
-    to { 
-        opacity: 1; /* End visible */
-    }
+/* Chrome, Safari, Edge için scrollbar gizleme */
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
 }
 
-body { 
+body {
     background-color: #000000;
     color: #00FFC3;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    min-width: 100vh;
-    margin: 0px;
-    padding: 10px;
+    margin: 0 !important;
+    padding: 0 !important;
     box-sizing: border-box;
     animation: fadeInPage 0.8s ease-in-out;
 }
 
+#nav-bar {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(50px); 
+    transition: opacity 0.6s ease, visibility 0.6s ease, transform 0.6s ease;
+}
+
 .baslik {
     display: flex;
-    flex-direction: row;
-    justify-content: start;
     align-items: center;
     position: fixed;
+    top: 0;
     width: 100%;
-    min-width: fit-content;
-    padding-left: 15px;
-    padding-top: 15px;
-    padding-right: 34px;
     box-sizing: border-box;
-    background-color: #000000;
     z-index: 1000;
-}   
+    background: transparent;
+}
+
+.logo, .logo a {
+    display: block;
+}
+
+.logo a {
+    text-decoration: none;
+}
 
 .logo {
-    display: block;
-    width: 200px; 
     flex-shrink: 0;
     padding: 0;
     margin: 0;
 }
 
-.logo a {
-    text-decoration: none;
-    display: block;
-}
-
-.Esnek-Bosluk {
-    flex-grow: 3;
-    max-width: 10vw;
-    min-width: 5vw;
-}
-
-h1 {
-    font-size: 24px;
-    margin: 0;
-    letter-spacing: 5px;
-    color: #00FFC3;
-    text-shadow: 0 0 15px #00FFC3;
-    border: 1px solid #00FFC3;
-    background-color: rgba(0, 255, 195, 0.102);
-    padding: 0 30px;
-    flex-shrink: 0;
-}
-
 h1, .baslik-nav p {
-    height: 60px;
+    margin: 0;
     display: flex;
     align-items: center; 
     justify-content: center;
     box-sizing: border-box;
     white-space: nowrap;
+    /* Yükseklik artık sabit 60px değil, ekranın %6'sı kadar esniyor */
+    height: clamp(40px, 6.5vh, 70px); 
+}
+
+h1 {
+    color: #00FFC3;
+    text-shadow: 0 0 15px #00FFC3;
+    border: 1px solid #00FFC3;
+    background: rgba(0, 255, 195, 0.1);
+    backdrop-filter: blur(4px);
+    flex-shrink: 0;
+}
+
+.baslik-nav p {
+    color: #9c47c0;
+    font-weight: bold;
+    text-shadow: 0 0 10px #9c47c0;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .baslik-nav {
-    flex: 1; 
-    display: block;
-}
-
-.baslik-nav div {
-    width: 100%;
-    min-width: 200px;
-    margin-left: auto;
-    margin-right: 0;
-    height: 60px;
-    display: block;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #9c47c0;
-    background-color: rgba(155, 101, 255, 0.1);
-    box-sizing: border-box;
-    transition: 0.3s ease, text-shadow 0.3s ease;
+    flex: 1;
 }
 
 .baslik-nav a {
     text-decoration: none;
-    display: block;
-    
+    display: block; /* Linkin tüm kutuyu kaplaması için */
 }
 
-.baslik-nav p {
-    display: flex;
+.baslik-nav div {
+    display: flex; /* İçindeki 'p' etiketini ortalamak için block yerine flex */
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    margin: 0;
-    color: #9c47c0;
-    font-weight: bold;
-    text-shadow: 0 0 10px #9c47c0;
-    white-space: nowrap;
-    transition: color 0.3s ease, text-shadow 0.3s ease;
-    margin-left : 0px clamp(20px, 10 * (5vw - 7px), 100px );
+    border: 1px solid #9c47c0;
+    background-color: rgba(155, 101, 255, 0.1);
+    backdrop-filter: blur(4px);
     box-sizing: border-box;
-    letter-spacing: clamp(0px, 5 * (1vw - 7px), 23px);
+    transition: 0.3s ease;
+    width: 100%;
 }
 
-
-/* ===== HOVER STATES ===== */
-
-.logo a:hover h1 {
-    background-color: rgba(84, 255, 215, 0.3);
-    box-shadow: 0 0 20px rgba(84, 255, 215, 0.5);
-    border-color: #00ffaa;
-    transform: scale(1.03);
-    color: #7effd4;
-    text-shadow: 0 0 15px #7effd4;
-    transition: 0.3s ease-out, text-shadow 0.3s ease;
-
+.ana {
+    width: 100%;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
 }
 
-.baslik-nav a:hover div {
-    background-color: rgba(155, 101, 255, 0.3);
-    box-shadow: 0 0 30px rgba(155, 101, 255, 0.5);
-    border-color: #bd6df1;
-    transform: scale(1.03); 
-    transition: 0.3s ease-out, text-shadow 0.3s ease;
+.bolum {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
 }
-
-.baslik-nav a:hover p {
-    color: #deadff;
-    text-shadow: 0 0 15px #deadff;
-    transition: color 0.3s ease, text-shadow 0.3s ease;
-}
-
-/* ===== CURSOR FOLLOWER BASE STYLES ===== */
 
 .cursor-follower {
-    width: 16px; /* Size on desktop */
-    height: 16px;
-    background-color: #00FFC3; /* Turquoise color */
-    border-radius: 50%; /* Circle shape */
-
-    /* Positioning */
-    position: fixed; /* Stay fixed while scrolling */
-    top: 0; /* Start at top */
-    left: 0; /* Start at left */
-
-    /* Interaction */
-    pointer-events: none; /* Don't block clicks */
-    z-index: 9999; /* Always on top */
-
-    /* Neon glow effect */
-    box-shadow: 0 0 10px #00FFC3, 0 0 20px #00FFC3;
-
-    /* Smooth transitions */
-    transition: transform 0.08s ease-out, 
-                opacity 0.15s ease-in-out, 
-                background-color 0.1s ease;
+    display: none; /* Mobilde tamamen yok et */
 }
 
-/* ===== CURSOR STATES - DESKTOP ===== */
-/* Hover over interactive element - Orange */
-.cursor-follower.active {
-    transform: scale(1.3); /* Grow 1.3x */
-    background-color: #FF3300; /* Orange color */
-    box-shadow: 0 0 20px #FF3300, 0 0 40px #FF3300; /* Orange glow */
+/* ===== PAGE FADE IN ANIMATION ===== */
+
+@keyframes fadeInPage {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-/* Click on normal area - Green */
-.cursor-follower.clicked1 {
-    transform: scale(0.8); /* Shrink to 0.8x */
-    background-color: #02ddaa; /* Green color */
-}
 
-/* Click on interactive element - Dark orange */
-.cursor-follower.clicked2 {
-    transform: scale(0.9); /* Shrink to 0.9x */
-    background-color: #da2c01; /* Dark orange */
-}
+@media screen and (orientation: landscape) {
 
-/* ===== HIDE BROWSER CURSOR ===== */
+    html, body, a, button {
+        cursor: none !important;
+    }
 
-html, body {
-    cursor: none; /* Hide standard cursor */
-}
-
-a, button {
-    cursor: none; /* Hide pointer cursor on clickables */
-}
-
-/* ===== ANIMATIONS ===== */
-
-/* ===== RESPONSIVE DESIGN ===== */
-
-/* Tablets and smaller screens */
-@media (hover:none) {
     body {
-        padding: 15px; /* Reduce padding */
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        min-height: 100vh;
+        width: 100vw;
+        overflow-y: hidden !important; /* Masaüstünde snap-scroll için kilit */
+    }
+
+    /* SOLDAKI SCROLL BAR */
+    #nav-bar {
+        opacity: 1;
+        visibility: visible;
+        position: fixed;
+        left: clamp(4px, 1.5vw, 15px); 
+        top: 50%;
+        transform: translateY(-50%);
+        width: clamp(8px, 0.7vw, 14px); 
+        height: clamp(40vh, 72vh, 80vh);
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        border: 1.5px solid rgba(255, 255, 255, 0.12);
+        border-radius: 8px;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+    }
+    
+    .nav-segment {
+        flex: 1;
+        position: relative;
+    }
+
+    #seg-0 { 
+        background: #00FFC3; 
+        box-shadow: 0 0 clamp(8px, 1vw, 15px) #00FFC3; 
+    }
+    #seg-1 { 
+        background: #9c47c0; 
+        box-shadow: 0 0 clamp(8px, 1vw, 15px) #9c47c0; 
+    }
+    #seg-2 { 
+        background: #00eeff; 
+        box-shadow: 0 0 clamp(8px, 1vw, 15px) #00eeff; 
+    }
+
+    .baslik {
+        justify-content: start;
+        /* Endfield Ölçeği: Pencere yassılaştıkça (vh) ve daraldıkça (vw) boşluklar daralır */
+        padding: clamp(10px, 2.5vh, 25px) clamp(10px, 2vw, 40px);
+    }
+
+    .logo {
+        /* Sabit 200px yerine esnek Endfield ölçeği */
+        width: clamp(140px, 12vw, 240px);
+    }
+
+    .Esnek-Bosluk {
+        flex-grow: 3;
+        max-width: 10vw;
+        min-width: 5vw;
     }
 
     h1 {
-        letter-spacing: 5px; /* Reduce letter spacing */
+        font-size: clamp(18px, 1.4vw, 26px);
+        letter-spacing: clamp(2px, 0.3vw, 5px);
+        padding: 0 clamp(15px, 2vw, 40px);
     }
 
-    p {
-        letter-spacing: 1px; /* Reduce letter spacing */
-    }
-    .cursor-follower:not(.is-mobile) {
-        display: none;
-}}
-
-/* Mobile phones */
-@media (hover:hover) {
-    body {
-        padding: 10px; /* Minimal padding */ 
+    .baslik-nav p {
+        font-size: clamp(18px, 1.4vw, 26px);
+        margin-left: clamp(20px, 3vw, 60px); /* Karmaşık clamp'i sadeleştirdik */
+        letter-spacing: clamp(1px, 0.2vw, 4px);
     }
 
-    .headline {
-        max-width: 100%; /* Full width */
+    .baslik-nav div {
+        /* Yükseklik h1 ile senkronize: pencere yassılaştıkça küçülür */
+        height: clamp(40px, 6.5vh, 70px); 
+        min-width: clamp(150px, 15vw, 250px);
+        margin-left: auto;
     }
 
-    h1 {
-        letter-spacing: 3px; /* Minimal spacing */
+    .ana {
+        height: 100vh;
+        overflow-y: scroll;
+        scroll-snap-type: y mandatory; /* Mıknatıs özelliği */
+        scrollbar-width: none; /* Firefox için scroll gizleme */
     }
-    .cursor-follower:not(.is-mobile) {
+
+    .ana::-webkit-scrollbar { display: none; } /* Chrome/Safari için */
+
+    .bolum {
+        height: 100vh; /* Tam ekran bölümler */
+        scroll-snap-align: start;
+    }
+
+    .cursor-follower {
         display: block;
-}}
+        width: 16px;
+        height: 16px;
+        background-color: #00FFC3;
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        box-shadow: 0 0 10px #00FFC3, 0 0 20px #00FFC3;
+        transition: transform 0.08s ease-out, opacity 0.15s ease-in-out, background-color 0.1s ease;
+    }
+
+    /* --- CURSOR STATES --- */
+    .cursor-follower.active {
+        transform: scale(1.3);
+        background-color: #FF3300;
+        box-shadow: 0 0 20px #FF3300, 0 0 40px #FF3300;
+    }
+
+    .cursor-follower.clicked1 {
+        transform: scale(0.8);
+        background-color: #02ddaa;
+    }
+
+    .cursor-follower.clicked2 {
+        transform: scale(0.9);
+        background-color: #da2c01;
+    }
+
+    /* --- HOVER STATES --- */
+    /* Geçiş efektlerini ana elemanlara verelim (Masaüstü için) */
+    h1, .baslik-nav div, .baslik-nav p {
+        transition: all 0.3s ease-out;
+    }
+
+    .logo a:hover h1 {
+        background-color: rgba(84, 255, 215, 0.3);
+        box-shadow: 0 0 20px rgba(84, 255, 215, 0.5);
+        border-color: #00ffaa;
+        transform: scale(1.03);
+        color: #7effd4;
+        text-shadow: 0 0 15px #7effd4;
+    }
+
+    .baslik-nav a:hover div {
+        background-color: rgba(155, 101, 255, 0.3);
+        box-shadow: 0 0 30px rgba(155, 101, 255, 0.5);
+        border-color: #bd6df1;
+        transform: scale(1.03);
+    }
+
+    .baslik-nav a:hover p {
+        color: #deadff;
+        text-shadow: 0 0 15px #deadff;
+    }
+
+}
+
+
+@media (orientation: portrait) and (hover: hover) {
+
+    html, body, a, button {
+        cursor: none !important;
+    }
+
+    html, body {
+        overflow-y: auto !important; /* Kaydırma kilidini aç */
+        height: auto !important;    /* snap-scroll'u bozmak için şart */
+        overflow-x: hidden !important;
+    }
+
+    #nav-bar {
+        opacity: 0;
+        visibility: hidden;
+        position: fixed;
+        left: clamp(4px, 1.5vw, 15px); 
+        top: 50%;
+        transform: translateY(-50%);
+        width: clamp(8px, 0.7vw, 14px); 
+        height: clamp(40vh, 72vh, 80vh);
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        border: 1.5px solid rgba(255, 255, 255, 0.12);
+        border-radius: 8px;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        transform: translateY(0);
+        transition: opacity 0.35s ease-out, visibility 0.2s ease-out, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .nav-segment {
+        flex: 1;
+        position: relative;
+    }
+
+    #seg-0 { 
+        background: #00FFC3; 
+        box-shadow: 0 0 clamp(8px, 1vw, 15px) #00FFC3; 
+    }
+    #seg-1 { 
+        background: #9c47c0; 
+        box-shadow: 0 0 clamp(8px, 1vw, 15px) #9c47c0; 
+    }
+    #seg-2 { 
+        background: #00eeff; 
+        box-shadow: 0 0 clamp(8px, 1vw, 15px) #00eeff; 
+    }
+
+    .baslik {
+        justify-content: space-between; 
+        padding: 12px 15px; /* Mobilde güvenli sabit boşluk */
+    }
+
+    .baslik {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between; 
+        align-items: center;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 12px 15px; /* Mobilde parmak payı için sabit padding */
+        box-sizing: border-box;
+        z-index: 1000;
+    }
+
+    .logo {
+        /* Mobilde ekranın %35'i kadar, ama çok devleşmesin */
+        width: clamp(100px, 35vw, 150px);
+    }
+
+    .Esnek-Bosluk {
+        flex-grow: 1; /* Mobilde daha dar boşluk */
+        max-width: 5vw;
+        min-width: 2vw;
+    }
+
+    h1, .baslik-nav p {
+        font-size: clamp(16px, 4vw, 20px);
+        height: 45px; /* Mobilde daha ince ve standart bir bar */
+        letter-spacing: 2px;
+    }
+
+    h1 { 
+        padding: 0 15px; 
+    }
+
+    .baslik-nav div {
+        height: 45px; /* Mobilde h1 ile aynı yükseklik */
+        min-width: auto; /* Mobilde genişlik kısıtlamasını kaldırıyoruz */
+    }
+
+    .ana {
+        height: 100vh;
+        overflow-y: scroll;
+        scroll-snap-type: y mandatory; /* Mıknatıs özelliği */
+        scrollbar-width: none; /* Firefox için scroll gizleme */
+    }
+
+    .ana::-webkit-scrollbar { display: none; } /* Chrome/Safari için */
+
+    .bolum {
+        height: 100vh; /* Tam ekran bölümler */
+        scroll-snap-align: start;
+    }
+
+    html, body, a, button {
+        cursor: auto;
+    }
+
+    .cursor-follower {
+        display: block;
+        width: 16px;
+        height: 16px;
+        background-color: #00FFC3;
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        box-shadow: 0 0 10px #00FFC3, 0 0 20px #00FFC3;
+        transition: transform 0.08s ease-out, opacity 0.15s ease-in-out, background-color 0.1s ease;
+    }
+
+    /* --- CURSOR STATES --- */
+    .cursor-follower.active {
+        transform: scale(1.3);
+        background-color: #FF3300;
+        box-shadow: 0 0 20px #FF3300, 0 0 40px #FF3300;
+    }
+
+    .cursor-follower.clicked1 {
+        transform: scale(0.8);
+        background-color: #02ddaa;
+    }
+
+    .cursor-follower.clicked2 {
+        transform: scale(0.9);
+        background-color: #da2c01;
+    }
+
+    /* --- HOVER STATES --- */
+    /* Geçiş efektlerini ana elemanlara verelim (Masaüstü için) */
+    h1, .baslik-nav div, .baslik-nav p {
+        transition: all 0.3s ease-out;
+    }
+
+    .logo a:hover h1 {
+        background-color: rgba(84, 255, 215, 0.3);
+        box-shadow: 0 0 20px rgba(84, 255, 215, 0.5);
+        border-color: #00ffaa;
+        transform: scale(1.03);
+        color: #7effd4;
+        text-shadow: 0 0 15px #7effd4;
+    }
+
+    .baslik-nav a:hover div {
+        background-color: rgba(155, 101, 255, 0.3);
+        box-shadow: 0 0 30px rgba(155, 101, 255, 0.5);
+        border-color: #bd6df1;
+        transform: scale(1.03);
+    }
+
+    .baslik-nav a:hover p {
+        color: #deadff;
+        text-shadow: 0 0 15px #deadff;
+    }
+
+}
+
+
+@media (orientation: portrait) and (hover: none) {
+
+    html, body {
+        overflow-y: auto !important; /* Kaydırma kilidini aç */
+        height: auto !important;    /* snap-scroll'u bozmak için şart */
+        overflow-x: hidden !important;
+        scroll-snap-type: none !important   ;
+    }
+
+    #nav-bar {
+        display: none; /* Mobilde soldaki barı gizle */
+    }
+
+    .baslik {
+        justify-content: space-between; 
+        padding: 12px 15px; /* Mobilde güvenli sabit boşluk */
+    }
+
+    .baslik {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between; 
+        align-items: center;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 12px 15px; /* Mobilde parmak payı için sabit padding */
+        box-sizing: border-box;
+        z-index: 1000;
+    }
+
+    .logo {
+        /* Mobilde ekranın %35'i kadar, ama çok devleşmesin */
+        width: clamp(100px, 35vw, 150px);
+    }
+
+    .Esnek-Bosluk {
+        flex-grow: 1; /* Mobilde daha dar boşluk */
+        max-width: 5vw;
+        min-width: 2vw;
+    }
+
+    h1, .baslik-nav p {
+        font-size: clamp(16px, 4vw, 20px);
+        height: 45px; /* Mobilde daha ince ve standart bir bar */
+        letter-spacing: 2px;
+    }
+
+    h1 { 
+        padding: 0 15px; 
+    }
+
+    .baslik-nav div {
+        height: 45px; /* Mobilde h1 ile aynı yükseklik */
+        min-width: auto; /* Mobilde genişlik kısıtlamasını kaldırıyoruz */
+    }
+
+    .ana {
+        height: auto !important;
+        overflow-y: visible !important;
+        scroll-snap-type: none !important; /* Mobilde mıknatısı kapatıyoruz ki serbest kalsın */
+        display: block !important;
+    }
+
+    .bolum {
+        min-height: 100vh !important; /* Mobilde içerik uzunsa ekranı taşabilsin */
+        height: auto !important;
+        padding: 80px 20px ; /* Başlık altında kalmasın diye üst boşluk */
+        scroll-snap-stop: none !important;
+        scroll-snap-align: normal !important;
+    }
+
+    html, body, a, button {
+        cursor: auto;
+    }
+
+}
