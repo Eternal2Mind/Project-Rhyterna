@@ -14,7 +14,7 @@ document.querySelectorAll('section').forEach(s => urlGozlemcisi.observe(s));
 // ─── Cursor Takipçi ──────────────────────────────────────────────────────────
 
 const cursor = document.querySelector('.cursor-follower');
-const interactiveEls = document.querySelectorAll('a, button, [role="button"], .headline');
+const interactiveEls = document.querySelectorAll('a, button, [role="button"], .headline, nav-segment');
 
 if (cursor) {
     cursor.style.opacity = '0';

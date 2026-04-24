@@ -30,10 +30,23 @@
 </header>
 
 <div id="nav-bar">
-  <div class="nav-segment active" id="seg-0" data-target="home"></div>
-  <div class="nav-segment"        id="seg-1" data-target="lex-rhyterna"></div>
-  <div class="nav-segment"        id="seg-2" data-target="social"></div>
+  <div class="nav-segment"       id="seg-0" data-target="home">
+    <a href="javascript:void(0)" onclick="document.getElementById('home').scrollIntoView()">
+       <span class="nav-text"><b>Ana Sayfa</b></span>
+    </a>
+  </div>
+  <div class="nav-segment"        id="seg-1" data-target="lex-rhyterna">
+    <a href="javascript:void(0)" onclick="document.getElementById('lex-rhyterna').scrollIntoView()">
+      <span class="nav-text"><b>Lex Rhyterna</b></span>
+    </a>
+  </div>
+  <div class="nav-segment"        id="seg-2" data-target="social">
+    <a href="javascript:void(0)" onclick="document.getElementById('social').scrollIntoView()">
+      <span class="nav-text"><b>İletişim</b></span>
+    </a>
+  </div>
 </div>
+
 
 <main class="ana">
   <section id="home"    class="bolum"><h2>ETERAEON</h2></section>

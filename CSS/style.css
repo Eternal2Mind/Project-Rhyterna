@@ -1,6 +1,19 @@
-::root {
+/* ================================================
+   SEGMENT COLORS
+================================================ */
 
-}
+#seg-0 { --seg-color: rgba(0, 255, 195, 1); }
+#seg-1 { --seg-color: rgba(156, 71, 192, 1); }
+#seg-2 { --seg-color: rgba(0, 238, 255, 1); }
+
+#seg-0 { --seg-colort: rgba(0, 255, 195, 0.1); }
+#seg-1 { --seg-colort: rgba(156, 71, 192, 0.1); }
+#seg-2 { --seg-colort: rgba(0, 238, 255, 0.1); }
+
+
+/* ================================================
+   GENEL
+================================================ */
 
 html {
     margin: 0;
@@ -9,13 +22,12 @@ html {
     height: 100%;
     position: relative;
     overflow-x: hidden;
-    -ms-overflow-style: none; /* IE/Edge scroll gizle */
-    scrollbar-width: none;    /* Firefox scroll gizle */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     scroll-behavior: smooth;
 }
 
-/* Chrome, Safari, Edge için scrollbar gizleme */
-html::-webkit-scrollbar, 
+html::-webkit-scrollbar,
 body::-webkit-scrollbar {
     display: none !important;
     width: 0 !important;
@@ -25,18 +37,13 @@ body {
     background-color: #000000;
     color: #00FFC3;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
     animation: fadeInPage 0.8s ease-in-out;
 }
 
-#nav-bar {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(50px); 
-    transition: opacity 0.6s ease, visibility 0.6s ease, transform 0.6s ease;
-}
+/* --- Header --- */
 
 .baslik {
     display: flex;
@@ -49,7 +56,8 @@ body {
     background: transparent;
 }
 
-.logo, .logo a {
+.logo,
+.logo a {
     display: block;
 }
 
@@ -63,15 +71,15 @@ body {
     margin: 0;
 }
 
-h1, .baslik-nav p {
+h1,
+.baslik-nav p {
     margin: 0;
     display: flex;
-    align-items: center; 
+    align-items: center;    
     justify-content: center;
     box-sizing: border-box;
     white-space: nowrap;
-    /* Yükseklik artık sabit 60px değil, ekranın %6'sı kadar esniyor */
-    height: clamp(40px, 6.5vh, 70px); 
+    height: clamp(40px, 6.5vh, 70px);
 }
 
 h1 {
@@ -83,6 +91,15 @@ h1 {
     flex-shrink: 0;
 }
 
+.baslik-nav {
+    flex: 1;
+}
+
+.baslik-nav a {
+    text-decoration: none;
+    display: block;
+}
+
 .baslik-nav p {
     color: #9c47c0;
     font-weight: bold;
@@ -90,17 +107,8 @@ h1 {
     transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
-.baslik-nav {
-    flex: 1;
-}
-
-.baslik-nav a {
-    text-decoration: none;
-    display: block; /* Linkin tüm kutuyu kaplaması için */
-}
-
 .baslik-nav div {
-    display: flex; /* İçindeki 'p' etiketini ortalamak için block yerine flex */
+    display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid #9c47c0;
@@ -110,6 +118,8 @@ h1 {
     transition: 0.3s ease;
     width: 100%;
 }
+
+/* --- Layout --- */
 
 .ana {
     width: 100%;
@@ -126,19 +136,89 @@ h1 {
     box-sizing: border-box;
 }
 
+/* --- Cursor (başlangıç: gizli) --- */
+
 .cursor-follower {
-    display: none; /* Mobilde tamamen yok et */
+    display: none;
+    width: 16px;
+    height: 16px;
+    background-color: #00FFC3;
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    box-shadow: 0 0 10px #00FFC3, 0 0 20px #00FFC3;
+    transition: transform 0.08s ease-out, opacity 0.15s ease-in-out, background-color 0.1s ease;
 }
 
-/* ===== PAGE FADE IN ANIMATION ===== */
+.cursor-follower.active {
+    transform: scale(1.3);
+    background-color: #FF3300;
+    box-shadow: 0 0 20px #FF3300, 0 0 40px #FF3300;
+}
+
+.cursor-follower.clicked1 {
+    transform: scale(0.8);
+    background-color: #02ddaa;
+}
+
+.cursor-follower.clicked2 {
+    transform: scale(0.9);
+    background-color: #da2c01;
+}
+
+/* --- Nav Bar (başlangıç: gizli) --- */
+
+#nav-bar {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(50px);
+    transition: opacity 1s ease-out, visibility 2s ease-out, transform 4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+/* ─── ANIMASYON DENEMESI ─────────────────────────────────────────────────────────── */
+
+position: fixed;
+    /* Dönme merkezi (Sarkaç İpinin Ucu):
+       X ekseninde barın tam ortası,
+       Y ekseninde barın 400px yukarısı (görünmez ipin uzunluğu) */
+    transform-origin: center -400px; 
+    
+    /* HEM GİDİŞ HEM DÖNÜŞ TRANSITION:
+       Açılış/Kapanış süreleri için (0.8s) ve
+       O tatlı zıplama efekti için cubic-bezier'i buraya koyduk.
+       Bu sayede dikeyden yataya dönerken de zıplayarak yerine oturacak. */
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), width 0.3s ease;
+}
+
+/* --- Nav Text (başlangıç: gizli) --- */
+
+.nav-text {
+    position: relative;
+    color: var(--seg-color);
+    font-size: clamp(14px, 2vh, 24px);
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    white-space: nowrap;
+    display: block;
+    opacity: 0;
+    transform: translateX(-15px);
+    transition: opacity 0.1s ease, transform 0.4s ease, color 0.4s ease;
+    filter: brightness(1.2);
+}
 
 @keyframes fadeInPage {
     from { opacity: 0; }
-    to { opacity: 1; }
+    to   { opacity: 1; }
 }
 
 
-@media screen and (orientation: landscape) {
+/* ================================================
+   LANDSCAPE (PC / PC dar ekran)
+================================================ */
+
+@media (orientation: landscape) {
 
     html, body, a, button {
         cursor: none !important;
@@ -150,55 +230,17 @@ h1 {
         height: 100%;
         min-height: 100vh;
         width: 100vw;
-        overflow-y: hidden !important; /* Masaüstünde snap-scroll için kilit */
+        overflow-y: hidden !important;
     }
 
-    /* SOLDAKI SCROLL BAR */
-    #nav-bar {
-        opacity: 1;
-        visibility: visible;
-        position: fixed;
-        left: clamp(4px, 1.5vw, 15px); 
-        top: 50%;
-        transform: translateY(-50%);
-        width: clamp(8px, 0.7vw, 14px); 
-        height: clamp(40vh, 72vh, 80vh);
-        z-index: 100;
-        display: flex;
-        flex-direction: column;
-        border: 1.5px solid rgba(255, 255, 255, 0.12);
-        border-radius: 8px;
-        overflow: hidden;
-        background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(4px);
-    }
-    
-    .nav-segment {
-        flex: 1;
-        position: relative;
-    }
-
-    #seg-0 { 
-        background: #00FFC3; 
-        box-shadow: 0 0 clamp(8px, 1vw, 15px) #00FFC3; 
-    }
-    #seg-1 { 
-        background: #9c47c0; 
-        box-shadow: 0 0 clamp(8px, 1vw, 15px) #9c47c0; 
-    }
-    #seg-2 { 
-        background: #00eeff; 
-        box-shadow: 0 0 clamp(8px, 1vw, 15px) #00eeff; 
-    }
+    /* --- Header --- */
 
     .baslik {
-        justify-content: start;
-        /* Endfield Ölçeği: Pencere yassılaştıkça (vh) ve daraldıkça (vw) boşluklar daralır */
+        justify-content: flex-start;
         padding: clamp(10px, 2.5vh, 25px) clamp(10px, 2vw, 40px);
     }
 
     .logo {
-        /* Sabit 200px yerine esnek Endfield ölçeği */
         width: clamp(140px, 12vw, 240px);
     }
 
@@ -216,66 +258,43 @@ h1 {
 
     .baslik-nav p {
         font-size: clamp(18px, 1.4vw, 26px);
-        margin-left: clamp(20px, 3vw, 60px); /* Karmaşık clamp'i sadeleştirdik */
+        margin-left: clamp(20px, 3vw, 60px);
         letter-spacing: clamp(1px, 0.2vw, 4px);
     }
 
     .baslik-nav div {
-        /* Yükseklik h1 ile senkronize: pencere yassılaştıkça küçülür */
-        height: clamp(40px, 6.5vh, 70px); 
+        height: clamp(40px, 6.5vh, 70px);
         min-width: clamp(150px, 15vw, 250px);
         margin-left: auto;
     }
 
+    /* --- Scroll container --- */
+
     .ana {
         height: 100vh;
         overflow-y: scroll;
-        scroll-snap-type: y mandatory; /* Mıknatıs özelliği */
-        scrollbar-width: none; /* Firefox için scroll gizleme */
+        scroll-snap-type: y mandatory;
+        scrollbar-width: none;
     }
 
-    .ana::-webkit-scrollbar { display: none; } /* Chrome/Safari için */
+    .ana::-webkit-scrollbar { display: none; }
 
     .bolum {
-        height: 100vh; /* Tam ekran bölümler */
+        height: 100vh;
         scroll-snap-align: start;
     }
 
+    /* --- Cursor --- */
+
     .cursor-follower {
         display: block;
-        width: 16px;
-        height: 16px;
-        background-color: #00FFC3;
-        border-radius: 50%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        z-index: 9999;
-        box-shadow: 0 0 10px #00FFC3, 0 0 20px #00FFC3;
-        transition: transform 0.08s ease-out, opacity 0.15s ease-in-out, background-color 0.1s ease;
     }
 
-    /* --- CURSOR STATES --- */
-    .cursor-follower.active {
-        transform: scale(1.3);
-        background-color: #FF3300;
-        box-shadow: 0 0 20px #FF3300, 0 0 40px #FF3300;
-    }
+    /* --- Hover efektleri --- */
 
-    .cursor-follower.clicked1 {
-        transform: scale(0.8);
-        background-color: #02ddaa;
-    }
-
-    .cursor-follower.clicked2 {
-        transform: scale(0.9);
-        background-color: #da2c01;
-    }
-
-    /* --- HOVER STATES --- */
-    /* Geçiş efektlerini ana elemanlara verelim (Masaüstü için) */
-    h1, .baslik-nav div, .baslik-nav p {
+    h1,
+    .baslik-nav div,
+    .baslik-nav p {
         transition: all 0.3s ease-out;
     }
 
@@ -300,8 +319,98 @@ h1 {
         text-shadow: 0 0 15px #deadff;
     }
 
+    /* --- Nav Bar (görünür) --- */
+
+    #nav-bar {
+        opacity: 1;
+        visibility: visible;
+        position: fixed;
+        left: clamp(4px, 1.5vw, 15px);
+        top: 50%;
+        transform: translateY(-50%);
+        width: clamp(8px, 0.7vw, 14px);
+        height: clamp(40vh, 72vh, 80vh);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        border: 1.5px solid rgba(255, 255, 255, 0.12);
+        border-radius: 8px;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.1) !important;
+        backdrop-filter: blur(4px);
+        transition: opacity 1s ease-out, visibility 1s ease-out, transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275), width 0.3s ease-out;
+
+        /* ─── ANIMASYON DENEMESI ─────────────────────────────────────────────────────────── */
+
+    }
+
+    .nav-segment {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--seg-color);
+        flex: 1;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: background 0.8s ease-in-out;
+    }
+
+    .nav-segment a {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        text-decoration: none !important;
+        align-items: center;
+        justify-content: center;
+        outline: none;
+    }
+
+    /* --- Nav Bar hover --- */
+
+    #nav-bar:hover {
+        width: clamp(200px, 5vw, 300px);
+        border-color: rgba(0, 255, 170, 1);
+        background: rgba(0, 0, 0, 0.6) !important;
+        box-shadow: 0 0 20px rgba(0, 255, 195, 0.1);
+        transition: 0.2s ease-out;
+    }
+
+    .nav-segment:not(:last-child) {
+        border-bottom: 1px solid rgb(71, 105, 192);
+        border-image: linear-gradient(to right, transparent, rgb(71, 105, 192), transparent) 1;
+    }
+
+    #nav-bar:hover .nav-segment {
+        opacity: 0.3;
+        filter: grayscale(0.5);
+        transition: none;
+        background-color: var(--seg-colort);
+        backdrop-filter: blur(4px);
+    }
+
+    #nav-bar .nav-segment:hover {
+        opacity: 0.7 !important;
+        filter: grayscale(0);
+        box-shadow: 0 0 20px var(--seg-color);
+        transition: none !important;
+    }
+
+    #nav-bar:hover .nav-text {
+        opacity: 0.5;
+        transform: translateX(0);
+    }
+
+    .nav-segment:hover .nav-text {
+        opacity: 1 !important;
+        transform: translateX(5px);
+    }
 }
 
+
+/* ================================================
+   PORTRAIT — İMLEÇ VAR (dar pencere PC / klavyeli tablet)
+================================================ */
 
 @media (orientation: portrait) and (hover: hover) {
 
@@ -310,21 +419,79 @@ h1 {
     }
 
     html, body {
-        overflow-y: auto !important; /* Kaydırma kilidini aç */
-        height: auto !important;    /* snap-scroll'u bozmak için şart */
+        height: auto !important;
+        overflow-y: auto !important;
         overflow-x: hidden !important;
     }
+
+    /* --- Header --- */
+
+    .baslik {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 12px 15px;
+    }
+
+    .logo {
+        width: clamp(100px, 35vw, 150px);
+    }
+
+    .Esnek-Bosluk {
+        flex-grow: 1;
+        max-width: 5vw;
+        min-width: 2vw;
+    }
+
+    h1,
+    .baslik-nav p {
+        font-size: clamp(16px, 4vw, 20px);
+        height: 45px;
+        letter-spacing: 2px;
+    }
+
+    h1 {
+        padding: 0 15px;
+    }
+
+    .baslik-nav div {
+        height: 45px;
+        min-width: auto;
+    }
+
+    /* --- Scroll container --- */
+
+    .ana {
+        height: 100vh;
+        overflow-y: scroll;
+        scroll-snap-type: y mandatory;
+        scrollbar-width: none;
+    }
+
+    .ana::-webkit-scrollbar { display: none; }
+
+    .bolum {
+        height: 100vh;
+        scroll-snap-align: start;
+    }
+
+    /* --- Cursor --- */
+
+    .cursor-follower {
+        display: block;
+    }
+
+    /* --- Nav Bar (gizli ama konumlu) --- */
 
     #nav-bar {
         opacity: 0;
         visibility: hidden;
         position: fixed;
-        left: clamp(4px, 1.5vw, 15px); 
+        left: clamp(4px, 1.5vw, 15px);
         top: 50%;
         transform: translateY(-50%);
-        width: clamp(8px, 0.7vw, 14px); 
+        width: clamp(8px, 0.7vw, 14px);
         height: clamp(40vh, 72vh, 80vh);
-        z-index: 100;
+        z-index: 1000;
         display: flex;
         flex-direction: column;
         border: 1.5px solid rgba(255, 255, 255, 0.12);
@@ -332,125 +499,21 @@ h1 {
         overflow: hidden;
         background: rgba(0, 0, 0, 0.6);
         backdrop-filter: blur(4px);
-        transform: translateY(0);
-        transition: opacity 0.35s ease-out, visibility 0.2s ease-out, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+        /* ─── ANIMASYON DENEMESI ─────────────────────────────────────────────────────────── */
+        }
 
     .nav-segment {
+        background: var(--seg-color);
+        box-shadow: 0 0 clamp(8px, 1vw, 15px) var(--seg-color);
         flex: 1;
         position: relative;
     }
 
-    #seg-0 { 
-        background: #00FFC3; 
-        box-shadow: 0 0 clamp(8px, 1vw, 15px) #00FFC3; 
-    }
-    #seg-1 { 
-        background: #9c47c0; 
-        box-shadow: 0 0 clamp(8px, 1vw, 15px) #9c47c0; 
-    }
-    #seg-2 { 
-        background: #00eeff; 
-        box-shadow: 0 0 clamp(8px, 1vw, 15px) #00eeff; 
-    }
+    /* --- Hover efektleri --- */
 
-    .baslik {
-        justify-content: space-between; 
-        padding: 12px 15px; /* Mobilde güvenli sabit boşluk */
-    }
-
-    .baslik {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between; 
-        align-items: center;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        padding: 12px 15px; /* Mobilde parmak payı için sabit padding */
-        box-sizing: border-box;
-        z-index: 1000;
-    }
-
-    .logo {
-        /* Mobilde ekranın %35'i kadar, ama çok devleşmesin */
-        width: clamp(100px, 35vw, 150px);
-    }
-
-    .Esnek-Bosluk {
-        flex-grow: 1; /* Mobilde daha dar boşluk */
-        max-width: 5vw;
-        min-width: 2vw;
-    }
-
-    h1, .baslik-nav p {
-        font-size: clamp(16px, 4vw, 20px);
-        height: 45px; /* Mobilde daha ince ve standart bir bar */
-        letter-spacing: 2px;
-    }
-
-    h1 { 
-        padding: 0 15px; 
-    }
-
-    .baslik-nav div {
-        height: 45px; /* Mobilde h1 ile aynı yükseklik */
-        min-width: auto; /* Mobilde genişlik kısıtlamasını kaldırıyoruz */
-    }
-
-    .ana {
-        height: 100vh;
-        overflow-y: scroll;
-        scroll-snap-type: y mandatory; /* Mıknatıs özelliği */
-        scrollbar-width: none; /* Firefox için scroll gizleme */
-    }
-
-    .ana::-webkit-scrollbar { display: none; } /* Chrome/Safari için */
-
-    .bolum {
-        height: 100vh; /* Tam ekran bölümler */
-        scroll-snap-align: start;
-    }
-
-    html, body, a, button {
-        cursor: auto;
-    }
-
-    .cursor-follower {
-        display: block;
-        width: 16px;
-        height: 16px;
-        background-color: #00FFC3;
-        border-radius: 50%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        z-index: 9999;
-        box-shadow: 0 0 10px #00FFC3, 0 0 20px #00FFC3;
-        transition: transform 0.08s ease-out, opacity 0.15s ease-in-out, background-color 0.1s ease;
-    }
-
-    /* --- CURSOR STATES --- */
-    .cursor-follower.active {
-        transform: scale(1.3);
-        background-color: #FF3300;
-        box-shadow: 0 0 20px #FF3300, 0 0 40px #FF3300;
-    }
-
-    .cursor-follower.clicked1 {
-        transform: scale(0.8);
-        background-color: #02ddaa;
-    }
-
-    .cursor-follower.clicked2 {
-        transform: scale(0.9);
-        background-color: #da2c01;
-    }
-
-    /* --- HOVER STATES --- */
-    /* Geçiş efektlerini ana elemanlara verelim (Masaüstü için) */
-    h1, .baslik-nav div, .baslik-nav p {
+    h1,
+    .baslik-nav div,
+    .baslik-nav p {
         transition: all 0.3s ease-out;
     }
 
@@ -474,84 +537,78 @@ h1 {
         color: #deadff;
         text-shadow: 0 0 15px #deadff;
     }
-
 }
 
 
+/* ================================================
+   PORTRAIT — MOBİL (dokunmatik, imleç yok)
+================================================ */
+
 @media (orientation: portrait) and (hover: none) {
-
-    html, body {
-        overflow-y: auto !important; /* Kaydırma kilidini aç */
-        height: auto !important;    /* snap-scroll'u bozmak için şart */
-        overflow-x: hidden !important;
-        scroll-snap-type: none !important   ;
-    }
-
-    #nav-bar {
-        display: none; /* Mobilde soldaki barı gizle */
-    }
-
-    .baslik {
-        justify-content: space-between; 
-        padding: 12px 15px; /* Mobilde güvenli sabit boşluk */
-    }
-
-    .baslik {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between; 
-        align-items: center;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        padding: 12px 15px; /* Mobilde parmak payı için sabit padding */
-        box-sizing: border-box;
-        z-index: 1000;
-    }
-
-    .logo {
-        /* Mobilde ekranın %35'i kadar, ama çok devleşmesin */
-        width: clamp(100px, 35vw, 150px);
-    }
-
-    .Esnek-Bosluk {
-        flex-grow: 1; /* Mobilde daha dar boşluk */
-        max-width: 5vw;
-        min-width: 2vw;
-    }
-
-    h1, .baslik-nav p {
-        font-size: clamp(16px, 4vw, 20px);
-        height: 45px; /* Mobilde daha ince ve standart bir bar */
-        letter-spacing: 2px;
-    }
-
-    h1 { 
-        padding: 0 15px; 
-    }
-
-    .baslik-nav div {
-        height: 45px; /* Mobilde h1 ile aynı yükseklik */
-        min-width: auto; /* Mobilde genişlik kısıtlamasını kaldırıyoruz */
-    }
-
-    .ana {
-        height: auto !important;
-        overflow-y: visible !important;
-        scroll-snap-type: none !important; /* Mobilde mıknatısı kapatıyoruz ki serbest kalsın */
-        display: block !important;
-    }
-
-    .bolum {
-        min-height: 100vh !important; /* Mobilde içerik uzunsa ekranı taşabilsin */
-        height: auto !important;
-        padding: 80px 20px ; /* Başlık altında kalmasın diye üst boşluk */
-        scroll-snap-stop: none !important;
-        scroll-snap-align: normal !important;
-    }
 
     html, body, a, button {
         cursor: auto;
     }
 
+    html, body {
+        height: auto !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        scroll-snap-type: none !important;
+    }
+
+    /* --- Header --- */
+
+    .baslik {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 12px 15px;
+    }
+
+    .logo {
+        width: clamp(100px, 35vw, 150px);
+    }
+
+    .Esnek-Bosluk {
+        flex-grow: 1;
+        max-width: 5vw;
+        min-width: 2vw;
+    }
+
+    h1,
+    .baslik-nav p {
+        font-size: clamp(16px, 4vw, 20px);
+        height: 45px;
+        letter-spacing: 2px;
+    }
+
+    h1 {
+        padding: 0 15px;
+    }
+
+    .baslik-nav div {
+        height: 45px;
+        min-width: auto;
+    }
+
+    #nav-bar {
+        display: none;
+    }
+
+    /* --- Scroll container --- */
+
+    .ana {
+        height: auto !important;
+        overflow-y: visible !important;
+        scroll-snap-type: none !important;
+        display: block !important;
+    }
+
+    .bolum {
+        min-height: 100vh !important;
+        height: auto !important;
+        padding: 80px 20px;
+        scroll-snap-stop: none !important;
+        scroll-snap-align: none !important;
+    }
 }
