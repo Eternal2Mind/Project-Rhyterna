@@ -382,7 +382,7 @@ position: fixed;
     }
 
     #nav-bar:hover .nav-segment {
-        opacity: 0.3;
+        opacity: 1;
         filter: grayscale(0.5);
         transition: none;
         background-color: var(--seg-colort);
@@ -397,7 +397,8 @@ position: fixed;
     }
 
     #nav-bar:hover .nav-text {
-        opacity: 0.5;
+        filter: brightness(1.5);
+        opacity: 1;
         transform: translateX(0);
     }
 
