@@ -121,3 +121,58 @@ window.addEventListener('load', () => {
         });
     });
 })();
+
+// ─── Üst Bar (Portrait) ───────────────────────────────────────────────────────
+
+(function () {
+    const ustBar  = document.getElementById('ust-bar');
+    const ustSegs = document.querySelectorAll('.ust-seg');
+    const pages   = ['home', 'lex-rhyterna', 'social'];
+
+    if (!ustBar) return;
+
+    // Landscape → Portrait geçişinde üst bar animasyonu
+    // (Sol bar zaten CSS transition ile kaybolur)
+    const mq = window.matchMedia('(orientation: portrait)');
+
+    function handleOrientation(e) {
+        if (e.matches) {
+            // Portrait'e geçildi — kısa gecikmeyle üst barı göster
+            // (sol barın kaybolma animasyonuyla eş zamanlı)
+            setTimeout(() => {
+                ustBar.classList.add('gorunur');
+            }, 50);
+        } else {
+            // Landscape'e geçildi — üst barı gizle
+            ustBar.classList.remove('gorunur');
+        }
+    }
+
+    // Sayfa portrait ile yükleniyorsa direkt göster
+    if (mq.matches) {
+        // Kısa gecikme: sayfa render olduktan sonra animasyonla gelsin
+        setTimeout(() => ustBar.classList.add('gorunur'), 100);
+    }
+
+    mq.addEventListener('change', handleOrientation);
+
+    // ─── Aktif segment — IntersectionObserver ───
+
+    const sectionEls = pages.map(id => document.getElementById(id)).filter(Boolean);
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                const idx = pages.indexOf(entry.target.id);
+                if (idx === -1) return;
+                ustSegs.forEach(s => s.classList.remove('aktif'));
+                ustSegs[idx]?.classList.add('aktif');
+            }
+        });
+    }, { threshold: 0.5 });
+
+    sectionEls.forEach(el => observer.observe(el));
+
+    // Başlangıç durumu
+    ustSegs[0]?.classList.add('aktif');
+})();

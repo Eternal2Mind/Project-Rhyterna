@@ -10,6 +10,9 @@
 #seg-1 { --seg-colort: rgba(156, 71, 192, 0.1); }
 #seg-2 { --seg-colort: rgba(0, 238, 255, 0.1); }
 
+.ust-seg[data-id="0"] { color: rgba(0, 255, 195, 0.3); }
+.ust-seg[data-id="1"] { color: rgba(156, 71, 192, 0.3); }
+.ust-seg[data-id="2"] { color: rgba(0, 238, 255, 0.3); }
 
 /* ================================================
    GENEL
@@ -177,9 +180,8 @@ h1 {
     transform: translateY(50px);
     transition: opacity 1s ease-out, visibility 2s ease-out, transform 4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     
-/* ─── ANIMASYON DENEMESI ─────────────────────────────────────────────────────────── */
 
-position: fixed;
+    position: fixed;
     /* Dönme merkezi (Sarkaç İpinin Ucu):
        X ekseninde barın tam ortası,
        Y ekseninde barın 400px yukarısı (görünmez ipin uzunluğu) */
@@ -207,6 +209,86 @@ position: fixed;
     transition: opacity 0.1s ease, transform 0.4s ease, color 0.4s ease;
     filter: brightness(1.2);
 }
+
+/* --- ÜST BAR --- */
+
+.ust-bar {
+    width: 100%;
+    height: clamp(40px, 6.5vh, 55px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    border-bottom: 1px solid rgba(71, 105, 192, 0.3);
+    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.7);
+    transform: translateY(-100%);
+    opacity: 0;
+    transition:
+        transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.575) 0.2s,
+        opacity 0.5s ease 0.12s;
+}
+
+.ust-bar.gorunur {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.ust-bar-ic {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.ust-seg {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: clamp(10px, 2.5vw, 14px);
+    font-weight: bold;
+    letter-spacing: clamp(0.5px, 0.3vw, 2px);
+    white-space: nowrap;
+    text-decoration: none;
+    transition: all 0.35s ease;
+    color: rgba(255, 255, 255, 0.25);
+    background: transparent;
+    position: relative;
+}
+
+.ust-seg:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 20%; height: 60%;
+    width: 1px;
+    background: linear-gradient(to bottom,
+        transparent,
+        rgba(71, 105, 192, 0.5),
+        transparent
+    );
+}
+
+.ust-seg.aktif[data-id="0"] {
+    color: rgba(0, 255, 195, 1);
+    background: rgba(0, 255, 195, 0.1);
+    text-shadow: 0 0 12px rgba(0, 255, 195, 0.8);
+    box-shadow: inset 0 -2px 0 rgba(0, 255, 195, 0.7);
+}
+.ust-seg.aktif[data-id="1"] {
+    color: rgba(156, 71, 192, 1);
+    background: rgba(156, 71, 192, 0.1);
+    text-shadow: 0 0 12px rgba(156, 71, 192, 0.8);
+    box-shadow: inset 0 -2px 0 rgba(156, 71, 192, 0.7);
+}
+.ust-seg.aktif[data-id="2"] {
+    color: rgba(0, 238, 255, 1);
+    background: rgba(0, 238, 255, 0.1);
+    text-shadow: 0 0 12px rgba(0, 238, 255, 0.8);
+    box-shadow: inset 0 -2px 0 rgba(0, 238, 255, 0.7);
+}
+
 
 @keyframes fadeInPage {
     from { opacity: 0; }
@@ -238,6 +320,10 @@ position: fixed;
     .baslik {
         justify-content: flex-start;
         padding: clamp(10px, 2.5vh, 25px) clamp(10px, 2vw, 40px);
+        opacity: 1;
+        transition:
+            transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.12s,
+            opacity 0.5s ease 0.12s;
     }
 
     .logo {
@@ -338,10 +424,10 @@ position: fixed;
         overflow: hidden;
         background: rgba(0, 0, 0, 0.1) !important;
         backdrop-filter: blur(4px);
-        transition: opacity 1s ease-out, visibility 1s ease-out, transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275), width 0.3s ease-out;
-
-        /* ─── ANIMASYON DENEMESI ─────────────────────────────────────────────────────────── */
-
+        transition: opacity 0.5s ease-out,
+                    visibility 1s ease-out, 
+                    transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                    width 0.3s ease-out;
     }
 
     .nav-segment {
@@ -406,6 +492,10 @@ position: fixed;
         opacity: 1 !important;
         transform: translateX(5px);
     }
+
+    .ust-bar {
+        display: none;
+    }
 }
 
 
@@ -428,9 +518,15 @@ position: fixed;
     /* --- Header --- */
 
     .baslik {
-        flex-direction: row;
+        display: hidden;
+        justify-content: flex-start;
         justify-content: space-between;
         padding: 12px 15px;
+        transform: translateY(-100%);
+        opacity: 0;
+        transition:
+            transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+            opacity 0.5s ease;
     }
 
     .logo {
@@ -473,6 +569,7 @@ position: fixed;
     .bolum {
         height: 100vh;
         scroll-snap-align: start;
+        padding-top: clamp(40px, 6.5vh, 55px);
     }
 
     /* --- Cursor --- */
@@ -500,7 +597,7 @@ position: fixed;
         overflow: hidden;
         background: rgba(0, 0, 0, 0.6);
         backdrop-filter: blur(4px);
-        /* ─── ANIMASYON DENEMESI ─────────────────────────────────────────────────────────── */
+        transition: opacity 0.5s ease-out, visibility 1s ease-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), width 0.3s ease-out;
         }
 
     .nav-segment {
@@ -508,6 +605,88 @@ position: fixed;
         box-shadow: 0 0 clamp(8px, 1vw, 15px) var(--seg-color);
         flex: 1;
         position: relative;
+    }
+
+        /* --- Ust Bar --- */
+
+    .ust-bar {
+        display: flex; /* Landscape'de gizli */
+        width: 100%;
+        height: clamp(40px, 6.5vh, 55px);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1001; /* header'ın üstünde */
+        border-bottom: 1px solid rgba(71, 105, 192, 0.3);
+        backdrop-filter: blur(8px);
+        background: rgba(0, 0, 0, 0.7);
+        /* Başlangıç: yukarıdan gelecek */
+        transform: translateY(-100%);
+        opacity: 0;
+        transition:
+            transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.575) 0.2s,
+            opacity 0.5s ease 0.12s;
+    }
+
+    .ust-bar.gorunur {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .ust-bar-ic {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .ust-seg {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: clamp(10px, 2.5vw, 14px);
+        font-weight: bold;
+        letter-spacing: clamp(0.5px, 0.3vw, 2px);
+        white-space: nowrap;
+        text-decoration: none;
+        transition: all 0.35s ease;
+        color: rgba(255, 255, 255, 0.25);
+        background: transparent;
+        position: relative;
+    }
+
+    .ust-seg:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: 0; top: 20%; height: 60%;
+        width: 1px;
+        background: linear-gradient(to bottom,
+            transparent,
+            rgba(71, 105, 192, 0.5),
+            transparent
+        );
+    }
+
+    /* Aktif segment — her renk için */
+    .ust-seg.aktif[data-id="0"] {
+        color: rgba(0, 255, 195, 1);
+        background: rgba(0, 255, 195, 0.1);
+        text-shadow: 0 0 12px rgba(0, 255, 195, 0.8);
+        box-shadow: inset 0 -2px 0 rgba(0, 255, 195, 0.7);
+    }
+    .ust-seg.aktif[data-id="1"] {
+        color: rgba(156, 71, 192, 1);
+        background: rgba(156, 71, 192, 0.1);
+        text-shadow: 0 0 12px rgba(156, 71, 192, 0.8);
+        box-shadow: inset 0 -2px 0 rgba(156, 71, 192, 0.7);
+    }
+    .ust-seg.aktif[data-id="2"] {
+        color: rgba(0, 238, 255, 1);
+        background: rgba(0, 238, 255, 0.1);
+        text-shadow: 0 0 12px rgba(0, 238, 255, 0.8);
+        box-shadow: inset 0 -2px 0 rgba(0, 238, 255, 0.7);
     }
 
     /* --- Hover efektleri --- */
@@ -561,6 +740,7 @@ position: fixed;
     /* --- Header --- */
 
     .baslik {
+        display: none;
         flex-direction: row;
         justify-content: space-between;
         padding: 12px 15px;
@@ -608,8 +788,95 @@ position: fixed;
     .bolum {
         min-height: 100vh !important;
         height: auto !important;
-        padding: 80px 20px;
+        padding-top: clamp(40px, 6.5vh, 55px);
+        /* padding: 80px 20px; */
         scroll-snap-stop: none !important;
         scroll-snap-align: none !important;
+    }
+
+    .ust-bar {
+        display: flex; /* Landscape'de gizli */
+        width: 100%;
+        height: clamp(40px, 6.5vh, 55px);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1001; /* header'ın üstünde */
+        border-bottom: 1px solid rgba(71, 105, 192, 0.3);
+        backdrop-filter: blur(8px);
+        background: rgba(0, 0, 0, 0.7);
+        /* Başlangıç: yukarıdan gelecek */
+        transform: translateY(-100%);
+        opacity: 0;
+        transition:
+            transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+            opacity 0.5s ease;
+    }
+
+    .ust-bar.gorunur {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .ust-bar-ic {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .ust-seg {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: clamp(10px, 2.5vw, 14px);
+        font-weight: bold;
+        letter-spacing: clamp(0.5px, 0.3vw, 2px);
+        white-space: nowrap;
+        text-decoration: none;
+        transition: all 0.35s ease;
+        color: rgba(255, 255, 255, 0.25);
+        background: transparent;
+        position: relative;
+    }
+
+    /* Renkler */
+    .ust-seg[data-id="0"] { color: rgba(0, 255, 195, 0.3); }
+    .ust-seg[data-id="1"] { color: rgba(156, 71, 192, 0.3); }
+    .ust-seg[data-id="2"] { color: rgba(0, 238, 255, 0.3); }
+
+    /* Ayırıcı çizgiler */
+    .ust-seg:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: 0; top: 20%; height: 60%;
+        width: 1px;
+        background: linear-gradient(to bottom,
+            transparent,
+            rgba(71, 105, 192, 0.5),
+            transparent
+        );
+    }
+
+    /* Aktif segment — her renk için */
+    .ust-seg.aktif[data-id="0"] {
+        color: rgba(0, 255, 195, 1);
+        background: rgba(0, 255, 195, 0.1);
+        text-shadow: 0 0 12px rgba(0, 255, 195, 0.8);
+        box-shadow: inset 0 -2px 0 rgba(0, 255, 195, 0.7);
+    }
+    .ust-seg.aktif[data-id="1"] {
+        color: rgba(156, 71, 192, 1);
+        background: rgba(156, 71, 192, 0.1);
+        text-shadow: 0 0 12px rgba(156, 71, 192, 0.8);
+        box-shadow: inset 0 -2px 0 rgba(156, 71, 192, 0.7);
+    }
+    .ust-seg.aktif[data-id="2"] {
+        color: rgba(0, 238, 255, 1);
+        background: rgba(0, 238, 255, 0.1);
+        text-shadow: 0 0 12px rgba(0, 238, 255, 0.8);
+        box-shadow: inset 0 -2px 0 rgba(0, 238, 255, 0.7);
     }
 }
