@@ -43,6 +43,19 @@ if (cursor) {
         });
     });
 
+    const textEls = document.querySelectorAll('.cursor-text-el');
+
+    textEls.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.remove('active');
+            cursor.classList.add('text');
+        });
+
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('text');
+        });
+    });
+
     document.addEventListener('mousedown', () => {
         isMouseDown = true;
         cursor.classList.add(cursor.classList.contains('active') ? 'clicked2' : 'clicked1');
@@ -176,3 +189,84 @@ window.addEventListener('load', () => {
     // Başlangıç durumu
     ustSegs[0]?.classList.add('aktif');
 })();
+
+// ─── Feedback Formu ───────────────────────────────────────────────────────────
+
+async function handleSend() {
+    const btn          = document.getElementById('send-btn');
+    const msg          = document.getElementById('success-msg');
+    const box          = document.getElementById('feedback-box');
+    const dot          = document.getElementById('captcha-dot');
+    const captchaText  = document.getElementById('captcha-text');
+    const name         = document.getElementById('fb-name').value.trim();
+    const text         = document.getElementById('fb-msg').value.trim();
+    const type         = document.querySelector('.fb-tab.aktif')?.dataset.tip || 'genel';
+
+    if (!text) return;
+
+    btn.textContent = 'GÖNDERİLİYOR...';
+    btn.disabled = true;
+    dot.classList.add('dogrulaniyor');
+    captchaText.textContent = 'DOĞRULANYOR...';
+
+    try {
+        const token = await new Promise((resolve, reject) => {
+            turnstile.ready(() => {
+                turnstile.execute('.cf-turnstile', {
+                    callback: resolve,
+                    'error-callback': reject
+                });
+            });
+        });
+
+        dot.classList.remove('dogrulaniyor');
+        dot.classList.add('dogrulandi');
+        captchaText.textContent = 'DOĞRULANDI';
+
+        const res = await fetch('https://feedback-worker.emir-sozer007.workers.dev', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, message: text, type, turnstileToken: token })
+        });
+
+        if (res.ok) {
+            btn.textContent = 'GÖNDERİLDİ';
+            btn.classList.add('sent');
+            msg.classList.add('visible');
+            box.classList.add('sent');
+            setTimeout(() => {
+                btn.textContent = 'GÖNDER';
+                btn.classList.remove('sent');
+                btn.disabled = false;
+                msg.classList.remove('visible');
+                box.classList.remove('sent');
+                dot.classList.remove('dogrulandi');
+                captchaText.textContent = 'DOĞRULAMA';
+                document.getElementById('fb-name').value = '';
+                document.getElementById('fb-msg').value = '';
+                turnstile.reset('.cf-turnstile');
+            }, 3000);
+        } else {
+            btn.textContent = 'HATA';
+            dot.classList.remove('dogrulaniyor', 'dogrulandi');
+            captchaText.textContent = 'DOĞRULAMA';
+            setTimeout(() => { btn.textContent = 'GÖNDER'; btn.disabled = false; }, 2000);
+        }
+    } catch {
+        btn.textContent = 'BAĞLANTI HATASI';
+        dot.classList.remove('dogrulaniyor', 'dogrulandi');
+        captchaText.textContent = 'DOĞRULAMA HATASI';
+        setTimeout(() => {
+            btn.textContent = 'GÖNDER';
+            btn.disabled = false;
+            captchaText.textContent = 'DOĞRULAMA';
+        }, 2000);
+    }
+}
+
+
+function setTab(el, placeholder) {
+    document.querySelectorAll('.fb-tab').forEach(t => t.classList.remove('aktif'));
+    el.classList.add('aktif');
+    document.getElementById('fb-msg').placeholder = placeholder;
+}
