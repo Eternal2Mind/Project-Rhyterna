@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <script>
-        // Tarayıcı dilini al ve anında fırlat
-        var lang = navigator.language || navigator.userLanguage;
-        window.location.replace(lang.toLowerCase().includes('tr') ? "./tr/" : "./en/");
+        var lang = navigator.language || navigator.userLanguage || '';
+        var target = lang.toLowerCase().startsWith('tr') ? '/tr/' : '/en/';
+        window.location.replace(target);
     </script>
-    <meta http-equiv="refresh" content="0; url=./en/">
+    <meta http-equiv="refresh" content="0; url=/en/">
 </head>
 </html>
