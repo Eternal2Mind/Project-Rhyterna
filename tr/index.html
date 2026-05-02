@@ -92,11 +92,15 @@
               <div class="captcha-dot" id="captcha-dot"></div>
               <span id="captcha-text">Captcha</span>
             </div>
-            <div class="cf-turnstile"
-              data-sitekey="0x4AAAAAADHIt20VsK-39buy" 
-              data-callback="onTurnstileSuccess" 
+            <div class="cf-turnstile" 
+              data-sitekey="0x4AAAAAADHIt20VsK-39buy"
+              data-execution="render"
+              data-appearance="always"
+              data-callback="onTurnstileSuccess"
               data-error-callback="onTurnstileError"
-              data-expired-callback="onTurnstileExpired"></div>
+              data-expired-callback="onTurnstileExpired"
+              style="display:none">
+            </div>
             <div>
               <span class="success-msg" id="success-msg">MESAJ GÖNDERİLDİ</span>
               <button class="send-btn" id="send-btn" onclick="handleSend()">GÖNDER</button>
@@ -104,7 +108,7 @@
           </div>
         </div>
       </div>
-      <div class="versiyon-etiket" id="versiyon-etiket">v0.1.011.5</div>
+      <div class="versiyon-etiket" id="versiyon-etiket">v0.1.011.6</div>
       
       <!-- SOSYAL MEDYA -->
       <div class="socials">
