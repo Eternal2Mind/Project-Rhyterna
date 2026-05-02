@@ -130,7 +130,7 @@ window.addEventListener('load', () => {
 
     segments.forEach((seg, i) => {
         seg.addEventListener('click', () => {
-            document.getElementById(pages[i])?.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById(pages[i])?.scrollIntoView({ behavior: 'smooth', block: 'start'});
         });
     });
 })();
@@ -202,7 +202,11 @@ async function handleSend() {
     const text         = document.getElementById('fb-msg').value.trim();
     const type         = document.querySelector('.fb-tab.aktif')?.dataset.tip || 'genel';
 
-    if (!text) return;
+    if (!text) {
+        box.classList.add('bos-uyari');
+    setTimeout(() => box.classList.remove('bos-uyari'), 1200);
+    return;
+    }
 
     btn.textContent = 'GÖNDERİLİYOR...';
     btn.disabled = true;
