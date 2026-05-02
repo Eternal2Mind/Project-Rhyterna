@@ -1,3 +1,7 @@
+let turnstileToken = null;
+function onTurnstileSuccess(token) { turnstileToken = token; }
+function onTurnstileError() { turnstileToken = null; }
+
 // ─── URL Gözlemcisi ──────────────────────────────────────────────────────────
 
 const urlGozlemcisi = new IntersectionObserver((entries) => {
@@ -193,44 +197,41 @@ window.addEventListener('load', () => {
 // ─── Feedback Formu ───────────────────────────────────────────────────────────
 
 async function handleSend() {
-    const btn          = document.getElementById('send-btn');
-    const msg          = document.getElementById('success-msg');
-    const box          = document.getElementById('feedback-box');
-    const dot          = document.getElementById('captcha-dot');
-    const captchaText  = document.getElementById('captcha-text');
-    const name         = document.getElementById('fb-name').value.trim();
-    const text         = document.getElementById('fb-msg').value.trim();
-    const type         = document.querySelector('.fb-tab.aktif')?.dataset.tip || 'genel';
+    const btn         = document.getElementById('send-btn');
+    const msg         = document.getElementById('success-msg');
+    const box         = document.getElementById('feedback-box');
+    const dot         = document.getElementById('captcha-dot');
+    const captchaText = document.getElementById('captcha-text');
+    const name        = document.getElementById('fb-name').value.trim();
+    const text        = document.getElementById('fb-msg').value.trim();
+    const type        = document.querySelector('.fb-tab.aktif')?.dataset.tip || 'genel';
 
     if (!text) {
         box.classList.add('bos-uyari');
-    setTimeout(() => box.classList.remove('bos-uyari'), 1200);
-    return;
+        setTimeout(() => box.classList.remove('bos-uyari'), 1200);
+        return;
+    }
+
+    if (!turnstileToken) {
+        dot.style.borderColor = 'rgba(255,50,50,0.8)';
+        captchaText.textContent = 'DOĞRULAMA HATASI';
+        setTimeout(() => {
+            dot.style.borderColor = '';
+            captchaText.textContent = 'Captcha';
+        }, 2000);
+        return;
     }
 
     btn.textContent = 'GÖNDERİLİYOR...';
     btn.disabled = true;
-    dot.classList.add('dogrulaniyor');
-    captchaText.textContent = 'DOĞRULANYOR...';
+    dot.classList.add('dogrulandi');
+    captchaText.textContent = 'DOĞRULANDI';
 
     try {
-        const token = await new Promise((resolve, reject) => {
-            turnstile.ready(() => {
-                turnstile.execute('.cf-turnstile', {
-                    callback: resolve,
-                    'error-callback': reject
-                });
-            });
-        });
-
-        dot.classList.remove('dogrulaniyor');
-        dot.classList.add('dogrulandi');
-        captchaText.textContent = 'DOĞRULANDI';
-
         const res = await fetch('https://feedback-worker.emir-sozer007.workers.dev', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, message: text, type, turnstileToken: token })
+            body: JSON.stringify({ name, message: text, type, turnstileToken })
         });
 
         if (res.ok) {
@@ -245,29 +246,29 @@ async function handleSend() {
                 msg.classList.remove('visible');
                 box.classList.remove('sent');
                 dot.classList.remove('dogrulandi');
-                captchaText.textContent = 'DOĞRULAMA';
+                captchaText.textContent = 'Captcha';
                 document.getElementById('fb-name').value = '';
                 document.getElementById('fb-msg').value = '';
+                turnstileToken = null;
                 turnstile.reset('.cf-turnstile');
             }, 3000);
         } else {
             btn.textContent = 'HATA';
-            dot.classList.remove('dogrulaniyor', 'dogrulandi');
+            dot.classList.remove('dogrulandi');
             captchaText.textContent = 'DOĞRULAMA';
             setTimeout(() => { btn.textContent = 'GÖNDER'; btn.disabled = false; }, 2000);
         }
     } catch {
         btn.textContent = 'BAĞLANTI HATASI';
-        dot.classList.remove('dogrulaniyor', 'dogrulandi');
+        dot.classList.remove('dogrulandi');
         captchaText.textContent = 'DOĞRULAMA HATASI';
         setTimeout(() => {
             btn.textContent = 'GÖNDER';
             btn.disabled = false;
-            captchaText.textContent = 'DOĞRULAMA';
+            captchaText.textContent = 'Captcha';
         }, 2000);
     }
 }
-
 
 function setTab(el, placeholder) {
     document.querySelectorAll('.fb-tab').forEach(t => t.classList.remove('aktif'));
