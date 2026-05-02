@@ -1,6 +1,41 @@
+// ─── TOKEN kontrolu ──────────────────────────────────────────────────────────
 let turnstileToken = null;
-function onTurnstileSuccess(token) { turnstileToken = token; }
-function onTurnstileError() { turnstileToken = null; }
+
+function onTurnstileSuccess(token) {
+    turnstileToken = token;
+    const dot  = document.getElementById('captcha-dot');
+    const text = document.getElementById('captcha-text');
+    const box  = document.getElementById('captcha-box');
+    dot.classList.remove('dogrulaniyor');
+    dot.classList.add('dogrulandi');
+    text.textContent = 'DOĞRULANDI';
+    box.style.borderColor = 'rgba(0, 255, 100, 0.8)';
+    text.style.color = 'rgba(0, 255, 100, 0.8)';
+}
+
+function onTurnstileError() {
+    turnstileToken = null;
+    const dot  = document.getElementById('captcha-dot');
+    const text = document.getElementById('captcha-text');
+    const box  = document.getElementById('captcha-box');
+    dot.classList.remove('dogrulaniyor', 'dogrulandi');
+    dot.style.borderColor = 'rgba(255, 50, 50, 0.8)';
+    text.textContent = 'DOĞRULAMA HATASI';
+    text.style.color = 'rgba(255, 50, 50, 0.8)';
+    box.style.borderColor = 'rgba(255, 50, 50, 0.8)';
+}
+
+function onTurnstileExpired() {
+    turnstileToken = null;
+    const dot  = document.getElementById('captcha-dot');
+    const text = document.getElementById('captcha-text');
+    const box  = document.getElementById('captcha-box');
+    dot.classList.remove('dogrulandi');
+    dot.style.borderColor = '';
+    text.textContent = 'Captcha';
+    text.style.color = '';
+    box.style.borderColor = '';
+}
 
 // ─── URL Gözlemcisi ──────────────────────────────────────────────────────────
 
