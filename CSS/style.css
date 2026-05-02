@@ -604,6 +604,20 @@ h1 {
     transition: color 0.35s ease, text-shadow 0.35s ease;
 }
 
+.versiyon-etiket {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: rgba(0, 238, 255, 0.18);
+    margin-top: 6px;
+    padding-left: 4px;
+    font-family: 'Segoe UI', monospace;
+    user-select: none;
+    transition: color 0.3s ease;
+}
+
+.versiyon-etiket:hover {
+    color: rgba(0, 238, 255, 0.5);
+}
 
 @keyframes fadeInPage {
     from { opacity: 0; }
