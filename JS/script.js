@@ -195,25 +195,31 @@ if (cursor) {
 (function () {
   const ustBar  = document.getElementById('ust-bar');
   const ustSegs = document.querySelectorAll('.ust-seg');
-  const pages   = ['home', 'lex-rhyterna', 'social'];
+  const logo    = document.querySelector('.home-logo-kutu');
+  const pages   = ['lex-rhyterna', 'social'];
 
   if (!ustBar) return;
 
   const mq = window.matchMedia('(orientation: portrait)');
 
-  function handleOrientation(e) {
-    if (e.matches) {
+  function applyOrientation(isPortrait) {
+    if (isPortrait) {
+      logo?.classList.remove('gorunur');
+      logo?.classList.add('gizli');
       setTimeout(() => ustBar.classList.add('gorunur'), 50);
     } else {
       ustBar.classList.remove('gorunur');
+      logo?.classList.remove('gizli');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          logo?.classList.add('gorunur');
+        });
+      });
     }
   }
 
-  if (mq.matches) {
-    setTimeout(() => ustBar.classList.add('gorunur'), 100);
-  }
-
-  mq.addEventListener('change', handleOrientation);
+  applyOrientation(mq.matches);
+  mq.addEventListener('change', (e) => applyOrientation(e.matches));
 
   const sectionEls = pages.map(id => document.getElementById(id)).filter(Boolean);
 

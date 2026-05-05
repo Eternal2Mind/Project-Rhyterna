@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Genel" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 92.13 90.33">
+  <defs>
+    <style>
+      .cls-1 {
+        opacity: .6;
+        stroke-width: 2.12px;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9 {
+        fill: none;
+        stroke: #fff;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9 {
+        stroke-miterlimit: 1.12;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-5, .cls-7, .cls-8, .cls-9 {
+        isolation: isolate;
+      }
+
+      .cls-2 {
+        opacity: .17;
+        stroke-width: 1.28px;
+      }
+
+      .cls-10 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        opacity: .36;
+        stroke-width: 1.62px;
+      }
+
+      .cls-4 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-5 {
+        opacity: .48;
+        stroke-width: .84px;
+      }
+
+      .cls-6 {
+        stroke-width: 1.96px;
+      }
+
+      .cls-7 {
+        opacity: .85;
+        stroke-width: 2.68px;
+      }
+
+      .cls-8 {
+        opacity: .72;
+        stroke-width: 1.4px;
+      }
+
+      .cls-11 {
+        clip-path: url(#clippath);
+      }
+
+      .cls-9 {
+        opacity: .26;
+        stroke-width: .45px;
+      }
+    </style>
+    <clipPath id="clippath">
+      <polygon class="cls-4" points="42.86 5.6 81.4 72.46 4.32 72.46 42.86 5.6"/>
+    </clipPath>
+  </defs>
+  <g id="Beyaz_logo" data-name="Beyaz logo">
+    <polygon class="cls-6" points="42.89 5.6 82.09 72.8 3.69 72.8 42.89 5.6"/>
+    <g>
+      <g class="cls-11">
+        <g>
+          <path class="cls-7" d="M4.7,71.63c25.43-7.66,50.85-7.66,76.28,0"/>
+          <path class="cls-8" d="M10.08,61.67c21.98-7.32,43.95-7.32,65.93,0"/>
+          <path class="cls-1" d="M13.86,54.5c19.25-6.44,38.51-6.44,57.76,0"/>
+          <path class="cls-5" d="M18.64,46.73c16.27-4.62,32.53-4.62,48.8,0"/>
+          <path class="cls-3" d="M23.02,39.25c13.15-2.54,26.29-2.54,39.44,0"/>
+          <path class="cls-9" d="M25.81,33.04c11.02-1.94,22.04-1.94,33.06,0"/>
+          <path class="cls-2" d="M29.6,27.72c8.63-2.53,17.26-2.53,25.89,0"/>
+        </g>
+      </g>
+      <polygon class="cls-4" points="42.86 5.6 81.4 72.46 4.32 72.46 42.86 5.6"/>
+    </g>
+    <circle class="cls-10" cx="42.89" cy="5.6" r="2.8"/>
+  </g>
+</svg>

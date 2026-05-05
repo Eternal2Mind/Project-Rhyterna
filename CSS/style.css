@@ -52,80 +52,51 @@ body {
   animation: fadeInPage 0.8s ease-in-out;
 }
 
-/* --- Header --- */
-
-.baslik {
-  display: flex;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: 1000;
-  background: transparent;
-}
-
-.logo,
-.logo a {
-  display: block;
-}
-
-.logo a {
-  text-decoration: none;
-}
-
-.logo {
-  flex-shrink: 0;
-  padding: 0;
-  margin: 0;
-}
-
-h1,
-.baslik-nav p {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  white-space: nowrap;
-  height: clamp(40px, 6.5vh, 70px);
-}
-
-h1 {
+/* --- Landscape ust bar --- */
+.home-logo {
+  width: clamp(200px, 35vw, 480px);
+  height: auto;
   color: #00FFC3;
-  text-shadow: 0 0 15px #00FFC3;
-  border: 1px solid #00FFC3;
-  background: rgba(0, 255, 195, 0.1);
+  filter: drop-shadow(0 0 12px rgba(0, 255, 195, 0.5));
+  user-select: none;
+}
+
+.home-logo-kutu {
+  border: 1px solid rgba(0, 255, 195, 0.2);
+  background: rgba(0, 255, 195, 0.04);
   backdrop-filter: blur(4px);
-  flex-shrink: 0;
-}
-
-.baslik-nav {
-  flex: 1;
-}
-
-.baslik-nav a {
-  text-decoration: none;
-  display: block;
-}
-
-.baslik-nav p {
-  color: #9c47c0;
-  font-weight: bold;
-  text-shadow: 0 0 10px #9c47c0;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
-}
-
-.baslik-nav div {
-  display: flex;
+  padding: clamp(20px, 3vh, 40px) clamp(30px, 4vw, 60px);
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #9c47c0;
-  background-color: rgba(155, 101, 255, 0.1);
-  backdrop-filter: blur(4px);
-  box-sizing: border-box;
-  transition: 0.3s ease;
-  width: 100%;
+  transition: 
+    border-color 0.4s ease, 
+    background 0.4s ease, 
+    box-shadow 0.4s ease,
+    transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    opacity 0.5s ease,
+    visibility 0s linear 0.5s;
+}
+
+.home-logo-kutu.gorunur {
+  /* visibility anında görünsün, opacity ile fade-in yapsın */
+  transition: 
+    border-color 0.4s ease, 
+    background 0.4s ease, 
+    box-shadow 0.4s ease,
+    transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    opacity 0.5s ease,
+    visibility 0s linear;        /* ← görünürken gecikme yok */
+}
+
+.home-logo-kutu:hover {
+  border-color: rgba(0, 255, 195, 0.5);
+  background: rgba(0, 255, 195, 0.08);
+  box-shadow: 0 0 30px rgba(0, 255, 195, 0.15);
+}
+
+.home-logo-kutu:hover .home-logo {
+  filter: drop-shadow(0 0 16px rgba(0, 255, 195, 0.8));
 }
 
 /* --- Layout --- */
@@ -189,7 +160,6 @@ h1 {
 #nav-bar {
   opacity: 0;
   visibility: hidden;
-  transform-origin: center -400px;
   transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), width 0.3s ease;
 }
 
@@ -627,43 +597,23 @@ h1 {
     overflow-y: hidden !important;
   }
 
-  /* --- Header --- */
+  /* --- Landscape Ust Bar --- */
 
-  .baslik {
-    justify-content: flex-start;
-    padding: clamp(10px, 2.5vh, 25px) clamp(10px, 2vw, 40px);
+  .home-logo-kutu {
+    position: fixed;
+    top: clamp(12px, 2vh, 24px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-120%);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+    /* transition genel bloktaki tanımı kullanıyor, burada override etme */
+  }
+
+  .home-logo-kutu.gorunur {
+    transform: translateX(-50%) translateY(0);
     opacity: 1;
-    transition:
-      transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s,
-      opacity 0.5s ease 0.2s;
-  }
-
-  .logo {
-    width: clamp(140px, 12vw, 240px);
-  }
-
-  .Esnek-Bosluk {
-    flex-grow: 3;
-    max-width: 10vw;
-    min-width: 5vw;
-  }
-
-  h1 {
-    font-size: clamp(18px, 1.4vw, 26px);
-    letter-spacing: clamp(2px, 0.3vw, 5px);
-    padding: 0 clamp(15px, 2vw, 40px);
-  }
-
-  .baslik-nav p {
-    font-size: clamp(18px, 1.4vw, 26px);
-    margin-left: clamp(20px, 3vw, 60px);
-    letter-spacing: clamp(1px, 0.2vw, 4px);
-  }
-
-  .baslik-nav div {
-    height: clamp(40px, 6.5vh, 70px);
-    min-width: clamp(150px, 15vw, 250px);
-    margin-left: auto;
+    visibility: visible;
   }
 
   /* --- Scroll container --- */
@@ -685,33 +635,6 @@ h1 {
   /* --- Cursor --- */
 
   .cursor-follower { display: block; }
-
-  /* --- Header hover --- */
-
-  h1,
-  .baslik-nav div,
-  .baslik-nav p { transition: all 0.3s ease-out; }
-
-  .logo a:hover h1 {
-    background-color: rgba(84, 255, 215, 0.3);
-    box-shadow: 0 0 20px rgba(84, 255, 215, 0.5);
-    border-color: #00ffaa;
-    transform: scale(1.03);
-    color: #7effd4;
-    text-shadow: 0 0 15px #7effd4;
-  }
-
-  .baslik-nav a:hover div {
-    background-color: rgba(155, 101, 255, 0.3);
-    box-shadow: 0 0 30px rgba(155, 101, 255, 0.5);
-    border-color: #bd6df1;
-    transform: scale(1.03);
-  }
-
-  .baslik-nav a:hover p {
-    color: #deadff;
-    text-shadow: 0 0 15px #deadff;
-  }
 
   /* --- Nav Bar --- */
 
@@ -804,8 +727,83 @@ h1 {
 
   /* --- Üst Bar --- */
 
-  .ust-bar { display: none; }
+  .ust-bar {
+    width: 100%;
+    height: clamp(40px, 6.5vh, 55px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    border-bottom: 1px solid rgba(71, 105, 192, 0.3);
+    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.7);
+    transform: translateY(-100%);
+    opacity: 0;
+    transition:
+      transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.575) 0.2s,
+      opacity 0.5s ease 0.12s;
+  }
 
+  .ust-bar.gorunur {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .ust-bar-ic {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .ust-seg {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: clamp(10px, 2.5vw, 14px);
+    font-weight: bold;
+    letter-spacing: clamp(0.5px, 0.3vw, 2px);
+    white-space: nowrap;
+    text-decoration: none;
+    transition: all 0.35s ease;
+    color: rgba(255, 255, 255, 0.25);
+    background: transparent;
+    position: relative;
+  }
+
+  .ust-seg:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    height: 60%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(71, 105, 192, 0.5), transparent);
+  }
+
+  .ust-seg.aktif[data-id="0"] {
+    color: rgba(0, 255, 195, 1);
+    background: rgba(0, 255, 195, 0.1);
+    text-shadow: 0 0 12px rgba(0, 255, 195, 0.8);
+    box-shadow: inset 0 -2px 0 rgba(0, 255, 195, 0.7);
+  }
+
+  .ust-seg.aktif[data-id="1"] {
+    color: rgba(156, 71, 192, 1);
+    background: rgba(156, 71, 192, 0.1);
+    text-shadow: 0 0 12px rgba(156, 71, 192, 0.8);
+    box-shadow: inset 0 -2px 0 rgba(156, 71, 192, 0.7);
+  }
+
+  .ust-seg.aktif[data-id="2"] {
+    color: rgba(0, 238, 255, 1);
+    background: rgba(0, 238, 255, 0.1);
+    text-shadow: 0 0 12px rgba(0, 238, 255, 0.8);
+    box-shadow: inset 0 -2px 0 rgba(0, 238, 255, 0.7);
+  }
+  
   /* --- Social --- */
 
   .sosyal-alan {
@@ -872,34 +870,22 @@ h1 {
     overflow-x: hidden !important;
   }
 
-  /* --- Header --- */
+  /* --- Landscape Ust Bar --- */
 
-  .baslik {
-    display: none;
+  .home-logo-kutu {
+    position: fixed;
+    top: clamp(12px, 2vh, 24px);
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    visibility: visible;  /* ← BU SATIRI EKLE */
+    z-index: 1000;
   }
 
-  .logo {
-    width: clamp(100px, 35vw, 150px);
-  }
-
-  .Esnek-Bosluk {
-    flex-grow: 1;
-    max-width: 5vw;
-    min-width: 2vw;
-  }
-
-  h1,
-  .baslik-nav p {
-    font-size: clamp(16px, 4vw, 20px);
-    height: 45px;
-    letter-spacing: 2px;
-  }
-
-  h1 { padding: 0 15px; }
-
-  .baslik-nav div {
-    height: 45px;
-    min-width: auto;
+  .ust-bar.gorunur ~ * .home-logo-kutu,
+  .home-logo-kutu.gizli {
+    transform: translateX(-50%) translateY(-150%);
+    opacity: 0;
   }
 
   /* --- Scroll container --- */
@@ -956,33 +942,6 @@ h1 {
     box-shadow: 0 0 clamp(8px, 1vw, 15px) var(--seg-color);
     flex: 1;
     position: relative;
-  }
-
-  /* --- Header hover --- */
-
-  h1,
-  .baslik-nav div,
-  .baslik-nav p { transition: all 0.3s ease-out; }
-
-  .logo a:hover h1 {
-    background-color: rgba(84, 255, 215, 0.3);
-    box-shadow: 0 0 20px rgba(84, 255, 215, 0.5);
-    border-color: #00ffaa;
-    transform: scale(1.03);
-    color: #7effd4;
-    text-shadow: 0 0 15px #7effd4;
-  }
-
-  .baslik-nav a:hover div {
-    background-color: rgba(155, 101, 255, 0.3);
-    box-shadow: 0 0 30px rgba(155, 101, 255, 0.5);
-    border-color: #bd6df1;
-    transform: scale(1.03);
-  }
-
-  .baslik-nav a:hover p {
-    color: #deadff;
-    text-shadow: 0 0 15px #deadff;
   }
 
   /* --- Social --- */
@@ -1055,7 +1014,6 @@ h1 {
   /* --- Header & Nav --- */
 
   .baslik { display: none; }
-  #nav-bar { display: none; }
 
   /* --- Scroll container --- */
 
