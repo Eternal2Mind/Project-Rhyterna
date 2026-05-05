@@ -55,7 +55,7 @@ body {
 /* --- Landscape ust bar --- */
 .home-logo {
   width: clamp(200px, 35vw, 480px);
-  height: auto;
+  height: clamp(20px, 7vw, 50px);
   color: #00FFC3;
   filter: drop-shadow(0 0 12px rgba(0, 255, 195, 0.5));
   user-select: none;
@@ -65,10 +65,10 @@ body {
   border: 1px solid rgba(0, 255, 195, 0.2);
   background: rgba(0, 255, 195, 0.04);
   backdrop-filter: blur(4px);
-  padding: clamp(20px, 3vh, 40px) clamp(30px, 4vw, 60px);
+  padding: clamp(3px, 0.1vh, 10px) clamp(1px, 1vw, 10px);
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content:center;
   transition: 
     border-color 0.4s ease, 
     background 0.4s ease, 
@@ -79,14 +79,13 @@ body {
 }
 
 .home-logo-kutu.gorunur {
-  /* visibility anında görünsün, opacity ile fade-in yapsın */
   transition: 
     border-color 0.4s ease, 
     background 0.4s ease, 
     box-shadow 0.4s ease,
     transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275),
     opacity 0.5s ease,
-    visibility 0s linear;        /* ← görünürken gecikme yok */
+    visibility 0s linear;
 }
 
 .home-logo-kutu:hover {
@@ -1013,7 +1012,7 @@ body {
 
   /* --- Header & Nav --- */
 
-  .baslik { display: none; }
+  .home-logo-kutu { display: none; }
 
   /* --- Scroll container --- */
 
