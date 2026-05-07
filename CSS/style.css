@@ -2,13 +2,15 @@
    SEGMENT RENKLERİ
 ================================================ */
 
-#seg-0 { --seg-color: rgba(0, 255, 195, 1);   --seg-colort: rgba(0, 255, 195, 0.1); }
-#seg-1 { --seg-color: rgba(156, 71, 192, 1);  --seg-colort: rgba(156, 71, 192, 0.1); }
-#seg-2 { --seg-color: rgba(0, 238, 255, 1);   --seg-colort: rgba(0, 238, 255, 0.1); }
+#seg-0 { --seg-color: rgba(0, 255, 195, 1);  --seg-colort: rgba(0, 255, 195, 0.1); }
+#seg-1 { --seg-color: rgba(156, 71, 192, 1); --seg-colort: rgba(156, 71, 192, 0.1); }
+#seg-2 { --seg-color: rgb(255, 251, 0); --seg-colort: rgba(255, 251, 50, 0.1); }
+#seg-3 { --seg-color: rgba(0, 238, 255, 1);  --seg-colort: rgba(0, 238, 255, 0.1); }
 
 .ust-seg[data-id="0"] { color: rgba(0, 255, 195, 0.3); }
 .ust-seg[data-id="1"] { color: rgba(156, 71, 192, 0.3); }
-.ust-seg[data-id="2"] { color: rgba(0, 238, 255, 0.3); }
+.ust-seg[data-id="2"] { color: rgba(255, 251, 0, 0.3); }
+.ust-seg[data-id="3"] { color: rgba(0, 238, 255, 0.3); }
 
 .feedback:has(.fb-tab.aktif[data-tip="genel"])  .fb-input,
 .feedback:has(.fb-tab.aktif[data-tip="genel"])  .fb-textarea { border-color: rgba(0, 238, 255, 0.4);  transition: border-color 0.1s ease; }
@@ -18,7 +20,6 @@
 
 .feedback:has(.fb-tab.aktif[data-tip="hata"])  .fb-input,
 .feedback:has(.fb-tab.aktif[data-tip="hata"])  .fb-textarea { border-color: rgba(255, 50, 50, 0.4);   transition: border-color 0.1s ease; }
-
 
 /* ================================================
    GENEL
@@ -43,20 +44,49 @@ body::-webkit-scrollbar {
 }
 
 body {
-  background-color: #000000;
+  background-color: #000;
   color: #00FFC3;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  animation: fadeInPage 0.8s ease-in-out;
 }
 
-/* --- Landscape ust bar --- */
+body::before {
+  content: '';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -43%);
+  width: 100vh;
+  height: 100vh;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.03) 20%,
+    transparent 90%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 99998;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 1.2s ease-in-out;
+}
+
+.page-overlay.gizli { opacity: 0; }
+
+/* --- Logo --- */
+
 .home-logo {
   width: clamp(200px, 35vw, 480px);
   height: clamp(20px, 7vw, 50px);
-  color: #00FFC3;
   filter: drop-shadow(0 0 12px rgba(0, 255, 195, 0.5));
   user-select: none;
 }
@@ -64,14 +94,13 @@ body {
 .home-logo-kutu {
   border: 1px solid rgba(0, 255, 195, 0.2);
   background: rgba(0, 255, 195, 0.04);
-  backdrop-filter: blur(4px);
-  padding: clamp(3px, 0.1vh, 10px) clamp(1px, 1vw, 10px);
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content:center;
-  transition: 
-    border-color 0.4s ease, 
-    background 0.4s ease, 
+  justify-content: center;
+  /* landscape: gizli başlar, portrait hover: görünür başlar — JS hallediyor */
+  transition:
+    border-color 0.4s ease,
+    background 0.4s ease,
     box-shadow 0.4s ease,
     transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275),
     opacity 0.5s ease,
@@ -79,9 +108,9 @@ body {
 }
 
 .home-logo-kutu.gorunur {
-  transition: 
-    border-color 0.4s ease, 
-    background 0.4s ease, 
+  transition:
+    border-color 0.4s ease,
+    background 0.4s ease,
     box-shadow 0.4s ease,
     transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275),
     opacity 0.5s ease,
@@ -130,6 +159,7 @@ body {
   z-index: 9999;
   box-shadow: 0 0 10px #00FFC3, 0 0 20px #00FFC3;
   transition: transform 0.08s ease-out, opacity 0.15s ease-in-out, background-color 0.1s ease;
+  will-change: left, top, transform;
 }
 
 .cursor-follower.active {
@@ -188,7 +218,6 @@ body {
   left: 0;
   z-index: 1001;
   border-bottom: 1px solid rgba(71, 105, 192, 0.3);
-  backdrop-filter: blur(8px);
   background: rgba(0, 0, 0, 0.7);
   transform: translateY(-100%);
   opacity: 0;
@@ -220,7 +249,7 @@ body {
   letter-spacing: clamp(0.5px, 0.3vw, 2px);
   white-space: nowrap;
   text-decoration: none;
-  transition: all 0.35s ease;
+  transition: color 0.35s ease, background 0.35s ease;
   color: rgba(255, 255, 255, 0.25);
   background: transparent;
   position: relative;
@@ -236,28 +265,12 @@ body {
   background: linear-gradient(to bottom, transparent, rgba(71, 105, 192, 0.5), transparent);
 }
 
-.ust-seg.aktif[data-id="0"] {
-  color: rgba(0, 255, 195, 1);
-  background: rgba(0, 255, 195, 0.1);
-  text-shadow: 0 0 12px rgba(0, 255, 195, 0.8);
-  box-shadow: inset 0 -2px 0 rgba(0, 255, 195, 0.7);
-}
+.ust-seg.aktif[data-id="0"] { color: rgba(0, 255, 195, 1);   background: rgba(0, 255, 195, 0.1);   text-shadow: 0 0 12px rgba(0, 255, 195, 0.8);   box-shadow: inset 0 -2px 0 rgba(0, 255, 195, 0.7); }
+.ust-seg.aktif[data-id="1"] { color: rgba(156, 71, 192, 1);  background: rgba(156, 71, 192, 0.1);  text-shadow: 0 0 12px rgba(156, 71, 192, 0.8);  box-shadow: inset 0 -2px 0 rgba(156, 71, 192, 0.7); }
+.ust-seg.aktif[data-id="2"] { color: rgba(255, 251, 0, 1);  background: rgba(255, 251, 0, 0.1);  text-shadow: 0 0 12px rgba(255, 251, 0, 0.8);  box-shadow: inset 0 -2px 0 rgba(255, 251, 0, 0.7); }
+.ust-seg.aktif[data-id="3"] { color: rgba(0, 238, 255, 1);  background: rgba(0, 238, 255, 0.1);  text-shadow: 0 0 12px rgba(0, 238, 255, 0.8);  box-shadow: inset 0 -2px 0 rgba(0, 238, 255, 0.7); }
 
-.ust-seg.aktif[data-id="1"] {
-  color: rgba(156, 71, 192, 1);
-  background: rgba(156, 71, 192, 0.1);
-  text-shadow: 0 0 12px rgba(156, 71, 192, 0.8);
-  box-shadow: inset 0 -2px 0 rgba(156, 71, 192, 0.7);
-}
-
-.ust-seg.aktif[data-id="2"] {
-  color: rgba(0, 238, 255, 1);
-  background: rgba(0, 238, 255, 0.1);
-  text-shadow: 0 0 12px rgba(0, 238, 255, 0.8);
-  box-shadow: inset 0 -2px 0 rgba(0, 238, 255, 0.7);
-}
-
-/* --- Social (Genel) --- */
+/* --- Social --- */
 
 .sosyal-alan {
   width: 100%;
@@ -300,11 +313,15 @@ body {
   letter-spacing: 1.5px;
   color: rgba(0, 238, 255, 1);
   cursor: none;
-  transition: all 0.25s ease;
   border: none;
   background: transparent;
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
+  transition: color 0.25s ease,
+              border-bottom-color 0.25s ease,
+              background 0.25s ease,
+              text-shadow 0.25s ease,
+              box-shadow 0.25s ease;
 }
 
 .fb-tab.aktif[data-tip="genel"] {
@@ -345,9 +362,7 @@ body {
   cursor: none;
 }
 
-.fb-input {
-  padding: 8px 12px;
-}
+.fb-input  { padding: 8px 12px; }
 
 .fb-textarea {
   padding: 10px 12px;
@@ -356,21 +371,17 @@ body {
 }
 
 .fb-input::placeholder,
-.fb-textarea::placeholder {
-  color: rgba(0, 238, 255, 0.6);
-}
+.fb-textarea::placeholder { color: rgba(0, 238, 255, 0.6); }
 
 .fb-input:focus,
-.fb-textarea:focus {
-  border-color: rgba(0, 238, 255, 0.6);
-}
+.fb-textarea:focus { border-color: rgba(0, 238, 255, 0.6); }
 
 .fb-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  position: relative; 
+  position: relative;
 }
 
 .captcha-box,
@@ -410,7 +421,9 @@ body {
   height: 14px;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 1);
-  transition: all 0.3s ease;
+  transition: border-color 0.3s ease,
+              background 0.3s ease,
+              box-shadow 0.3s ease;
 }
 
 .captcha-dot.dogrulaniyor {
@@ -435,7 +448,10 @@ body {
   font-weight: bold;
   letter-spacing: 1.5px;
   cursor: none;
-  transition: all 0.25s ease;
+  transition: background 0.25s ease,
+              border-color 0.25s ease,
+              color 0.25s ease,
+              text-shadow 0.25s ease;
 }
 
 .send-btn.sent {
@@ -455,9 +471,7 @@ body {
   transition: opacity 0.4s ease;
 }
 
-.success-msg.visible {
-  opacity: 1;
-}
+.success-msg.visible { opacity: 1; }
 
 .socials {
   flex: 3;
@@ -562,22 +576,94 @@ body {
   padding: 6px 0;
 }
 
-.versiyon-etiket:hover {
-  color: rgba(0, 238, 255, 0.5);
+.versiyon-etiket:hover { color: rgba(0, 238, 255, 0.5); }
+
+/* ================================================
+   HOME BG LOGO ANİMASYONU
+================================================ */
+
+.home-bg-logo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(80px, 38vh, 350px);
+  height: auto;
+  pointer-events: none;
+  z-index: 9999999;
 }
 
-/* --- Animasyonlar --- */
+#home { position: relative; }
+#home h2 { position: relative; z-index: 1; }
 
-@keyframes fadeInPage {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+.logo-triangle {
+  stroke-dasharray: 1250;
+  stroke-dashoffset: 1250;
+  animation: triangleDraw 1s ease-out forwards;
+  animation-play-state: paused;
 }
 
+.logo-inner {
+  opacity: 0;
+  animation: fadeInLine 0.08s ease-out forwards;
+  animation-play-state: paused;
+}
+
+.logo-dot {
+  opacity: 0;
+  animation: fadeInLine 0.15s ease-out forwards;
+  animation-play-state: paused;
+  animation-delay: 0.9s;
+}
+
+.logo-anim-start .logo-triangle,
+.logo-anim-start .logo-inner,
+.logo-anim-start .logo-dot { animation-play-state: running; }
+
+.logo-anim-done {
+  transition: opacity 0.4s ease;
+  opacity: 0.15;
+}
+
+@keyframes triangleDraw { to { stroke-dashoffset: 0; } }
+@keyframes fadeInLine   { to { opacity: 1; } }
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
   50%       { transform: scale(1.3); }
 }
 
+.logo-anim-start .cls-25.logo-inner { animation-delay: 0.050s; }
+.logo-anim-start .cls-10.logo-inner { animation-delay: 0.120s; }
+.logo-anim-start .cls-26.logo-inner { animation-delay: 0.160s; }
+.logo-anim-start .cls-31.logo-inner { animation-delay: 0.200s; }
+.logo-anim-start .cls-14.logo-inner { animation-delay: 0.250s; }
+.logo-anim-start .cls-11.logo-inner { animation-delay: 0.295s; }
+.logo-anim-start .cls-15.logo-inner { animation-delay: 0.335s; }
+.logo-anim-start .cls-29.logo-inner { animation-delay: 0.370s; }
+.logo-anim-start .cls-9.logo-inner  { animation-delay: 0.395s; }
+.logo-anim-start .cls-2.logo-inner  { animation-delay: 0.430s; }
+.logo-anim-start .cls-8.logo-inner  { animation-delay: 0.477s; }
+.logo-anim-start .cls-19.logo-inner { animation-delay: 0.496s; }
+.logo-anim-start .cls-27.logo-inner { animation-delay: 0.516s; }
+.logo-anim-start .cls-16.logo-inner { animation-delay: 0.536s; }
+.logo-anim-start .cls-12.logo-inner { animation-delay: 0.540s; }
+.logo-anim-start .cls-13.logo-inner { animation-delay: 0.555s; }
+.logo-anim-start .cls-18.logo-inner { animation-delay: 0.575s; }
+.logo-anim-start .cls-17.logo-inner { animation-delay: 0.595s; }
+.logo-anim-start .cls-32.logo-inner { animation-delay: 0.614s; }
+.logo-anim-start .cls-28.logo-inner { animation-delay: 0.634s; }
+.logo-anim-start .cls-5.logo-inner  { animation-delay: 0.654s; }
+.logo-anim-start .cls-33.logo-inner { animation-delay: 0.673s; }
+.logo-anim-start .cls-30.logo-inner { animation-delay: 0.693s; }
+.logo-anim-start .cls-1.logo-inner  { animation-delay: 0.713s; }
+.logo-anim-start .cls-24.logo-inner { animation-delay: 0.732s; }
+.logo-anim-start .cls-23.logo-inner { animation-delay: 0.752s; }
+.logo-anim-start .cls-20.logo-inner { animation-delay: 0.756s; }
+.logo-anim-start .cls-6.logo-inner  { animation-delay: 0.760s; }
+.logo-anim-start .cls-3.logo-inner  { animation-delay: 0.791s; }
+.logo-anim-start .cls-34.logo-inner { animation-delay: 0.811s; }
+.logo-anim-start .cls-22.logo-inner { animation-delay: 0.830s; }
+.logo-anim-start .cls-21.logo-inner { animation-delay: 0.850s; }
 
 /* ================================================
    LANDSCAPE (PC / PC dar ekran)
@@ -596,7 +682,7 @@ body {
     overflow-y: hidden !important;
   }
 
-  /* --- Landscape Ust Bar --- */
+  /* --- Logo --- */
 
   .home-logo-kutu {
     position: fixed;
@@ -606,7 +692,6 @@ body {
     opacity: 0;
     visibility: hidden;
     z-index: 1000;
-    /* transition genel bloktaki tanımı kullanıyor, burada override etme */
   }
 
   .home-logo-kutu.gorunur {
@@ -652,8 +737,7 @@ body {
     border: 1.5px solid rgba(255, 255, 255, 0.12);
     border-radius: 8px;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.1) !important;
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.1);
     transition:
       opacity 0.5s ease-out,
       visibility 1s ease-out,
@@ -683,27 +767,27 @@ body {
     outline: none;
   }
 
-  /* --- Nav Bar hover --- */
-
-  #nav-bar:hover {
-    width: clamp(200px, 5vw, 300px);
-    border-color: rgba(0, 255, 170, 1);
-    background: rgba(0, 0, 0, 0.6) !important;
-    box-shadow: 0 0 20px rgba(0, 255, 195, 0.1);
-    transition: 0.2s ease-out;
-  }
-
   .nav-segment:not(:last-child) {
     border-bottom: 1px solid rgb(71, 105, 192);
     border-image: linear-gradient(to right, transparent, rgb(71, 105, 192), transparent) 1;
   }
 
+  /* --- Nav Bar hover --- */
+
+  #nav-bar:hover {
+    width: clamp(200px, 5vw, 300px);
+    border-color: rgba(0, 255, 170, 1);
+    background: rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 20px rgba(0, 255, 195, 0.1);
+    transition: width 0.2s ease-out, border-color 0.2s ease-out,
+                background 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+
   #nav-bar:hover .nav-segment {
     opacity: 1;
     filter: grayscale(0.5);
-    transition: none;
     background-color: var(--seg-colort);
-    backdrop-filter: blur(4px);
+    transition: none;
   }
 
   #nav-bar .nav-segment:hover {
@@ -724,85 +808,6 @@ body {
     transform: translateX(5px);
   }
 
-  /* --- Üst Bar --- */
-
-  .ust-bar {
-    width: 100%;
-    height: clamp(40px, 6.5vh, 55px);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1001;
-    border-bottom: 1px solid rgba(71, 105, 192, 0.3);
-    backdrop-filter: blur(8px);
-    background: rgba(0, 0, 0, 0.7);
-    transform: translateY(-100%);
-    opacity: 0;
-    transition:
-      transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.575) 0.2s,
-      opacity 0.5s ease 0.12s;
-  }
-
-  .ust-bar.gorunur {
-    transform: translateY(0);
-    opacity: 1;
-  }
-
-  .ust-bar-ic {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .ust-seg {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: clamp(10px, 2.5vw, 14px);
-    font-weight: bold;
-    letter-spacing: clamp(0.5px, 0.3vw, 2px);
-    white-space: nowrap;
-    text-decoration: none;
-    transition: all 0.35s ease;
-    color: rgba(255, 255, 255, 0.25);
-    background: transparent;
-    position: relative;
-  }
-
-  .ust-seg:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 20%;
-    height: 60%;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, rgba(71, 105, 192, 0.5), transparent);
-  }
-
-  .ust-seg.aktif[data-id="0"] {
-    color: rgba(0, 255, 195, 1);
-    background: rgba(0, 255, 195, 0.1);
-    text-shadow: 0 0 12px rgba(0, 255, 195, 0.8);
-    box-shadow: inset 0 -2px 0 rgba(0, 255, 195, 0.7);
-  }
-
-  .ust-seg.aktif[data-id="1"] {
-    color: rgba(156, 71, 192, 1);
-    background: rgba(156, 71, 192, 0.1);
-    text-shadow: 0 0 12px rgba(156, 71, 192, 0.8);
-    box-shadow: inset 0 -2px 0 rgba(156, 71, 192, 0.7);
-  }
-
-  .ust-seg.aktif[data-id="2"] {
-    color: rgba(0, 238, 255, 1);
-    background: rgba(0, 238, 255, 0.1);
-    text-shadow: 0 0 12px rgba(0, 238, 255, 0.8);
-    box-shadow: inset 0 -2px 0 rgba(0, 238, 255, 0.7);
-  }
-  
   /* --- Social --- */
 
   .sosyal-alan {
@@ -820,13 +825,9 @@ body {
     transform: translateX(-12.5px);
   }
 
-  .fb-footer {
-    padding-top: clamp(6px, 0.8vh, 12px);
-  }
+  .fb-footer { padding-top: clamp(6px, 0.8vh, 12px); }
 
-  .socials {
-    gap: clamp(6px, 0.8vh, 12px);
-  }
+  .socials { gap: clamp(6px, 0.8vh, 12px); }
 
   .send-btn:hover {
     background: rgba(0, 255, 123, 0.15);
@@ -854,7 +855,6 @@ body {
   }
 }
 
-
 /* ================================================
    PORTRAIT — İMLEÇ VAR (dar pencere PC / klavyeli tablet)
 ================================================ */
@@ -869,25 +869,20 @@ body {
     overflow-x: hidden !important;
   }
 
-  /* --- Landscape Ust Bar --- */
-
   .home-logo-kutu {
     position: fixed;
     top: clamp(12px, 2vh, 24px);
     left: 50%;
     transform: translateX(-50%) translateY(0);
     opacity: 1;
-    visibility: visible;  /* ← BU SATIRI EKLE */
+    visibility: visible;
     z-index: 1000;
   }
 
-  .ust-bar.gorunur ~ * .home-logo-kutu,
   .home-logo-kutu.gizli {
     transform: translateX(-50%) translateY(-150%);
     opacity: 0;
   }
-
-  /* --- Scroll container --- */
 
   .ana {
     height: 100vh;
@@ -906,11 +901,7 @@ body {
     align-items: center;
   }
 
-  /* --- Cursor --- */
-
   .cursor-follower { display: block; }
-
-  /* --- Nav Bar --- */
 
   #nav-bar {
     opacity: 0;
@@ -928,7 +919,6 @@ body {
     border-radius: 8px;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
     transition:
       opacity 0.5s ease-out,
       visibility 1s ease-out,
@@ -960,13 +950,9 @@ body {
     transform: translateX(-12.5px);
   }
 
-  .fb-footer {
-    padding-top: clamp(6px, 0.8vh, 12px);
-  }
+  .fb-footer { padding-top: clamp(6px, 0.8vh, 12px); }
 
-  .socials {
-    gap: clamp(6px, 0.8vh, 12px);
-  }
+  .socials { gap: clamp(6px, 0.8vh, 12px); }
 
   .send-btn:hover {
     background: rgba(0, 255, 123, 0.15);
@@ -1010,11 +996,7 @@ body {
     scroll-snap-type: none !important;
   }
 
-  /* --- Header & Nav --- */
-
   .home-logo-kutu { display: none; }
-
-  /* --- Scroll container --- */
 
   .ana {
     height: auto !important;
@@ -1030,8 +1012,6 @@ body {
     justify-content: center;
     align-items: center;
   }
-
-  /* --- Social section --- */
 
   #social.bolum {
     min-height: calc(100vh - clamp(40px, 6.5vh, 55px)) !important;
@@ -1104,9 +1084,7 @@ body {
     min-width: clamp(100px, 3.5vh, 40px);
   }
 
-  .captcha-box {
-    margin-left: clamp(25px, 3vw, 30px);
-  }
+  .captcha-box { margin-left: clamp(25px, 3vw, 30px); }
 
   .social-card {
     flex: none;
@@ -1118,5 +1096,5 @@ body {
   .social-info { display: flex; }
 
   .social-platform,
-  .social-username { color: rgba(0, 238, 255, 0) !important; }
+  .social-username { color: rgba(0, 238, 255, 0); }
 }
