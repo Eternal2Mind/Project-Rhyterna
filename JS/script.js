@@ -83,7 +83,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   const ana = document.querySelector('.ana');
   if (ana) ana.scrollTop = 0;
- 
+
+  document.querySelectorAll('.logo-inner').forEach(el => {
+      const length = el.getTotalLength();
+      el.style.strokeDasharray = length;
+      el.style.strokeDashoffset = length;
+    });
+
   const bgLogo = document.querySelector('.home-bg-logo');
   if (bgLogo) bgLogo.classList.add('logo-anim-start');
  
@@ -92,7 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (overlay) overlay.classList.add('gizli');
     setTimeout(() => {
       if (bgLogo) {
-        bgLogo.classList.add('logo-anim-done');
+        if (!bgLogo.dataset.scrollControlled) {
+          bgLogo.classList.add('logo-anim-done');
+        }
         bgLogo.querySelectorAll('.logo-inner, .logo-triangle, .logo-dot')
           .forEach(el => el.style.willChange = 'auto');
       }
@@ -186,6 +194,11 @@ if (cursor) {
   let rafPending = false;
  
   window.addEventListener('resize', () => {
+    offsets = els.map(el => el.offsetTop);
+    updateNav();
+  }, { passive: true });
+
+  window.visualViewport?.addEventListener('resize', () => {
     offsets = els.map(el => el.offsetTop);
     updateNav();
   }, { passive: true });
@@ -288,6 +301,53 @@ if (cursor) {
   ustSegs[0]?.classList.add('aktif');
 })();
  
+// ─── LOGO SCROLL GÖRÜNÜRLÜĞü (LANDSCAPE) ────────────────────────────────────
+
+(function () {
+  const logo = document.querySelector('.home-logo-kutu');
+  const home = document.getElementById('home');
+
+  if (!logo || !home) return;
+
+  const mq = window.matchMedia('(orientation: landscape)');
+  const bgLogo = document.querySelector('.home-bg-logo');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!mq.matches) return;
+      if (entry.isIntersecting) { 
+        logo.classList.remove('gorunur');
+        bgLogo?.classList.remove('logo-anim-done');
+        bgLogo?.querySelector('.logo-text')?.classList.add('logo-text-giris');
+        bgLogo.dataset.scrollControlled = 'true';
+      } else {
+        logo.classList.add('gorunur');
+        bgLogo?.classList.add('logo-anim-done');
+        bgLogo.dataset.scrollControlled = 'true';
+      }
+    });
+  }, { threshold: 0.5 });
+
+  mq.addEventListener('change', (e) => {
+    if (!e.matches) logo.classList.remove('gorunur');
+  });
+
+  observer.observe(home);
+
+  setTimeout(() => {
+    if (mq.matches) {
+      const rect = home.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      if (isVisible) {
+        logo.classList.remove('gorunur');
+      } else {
+        logo.classList.add('gorunur');
+      }
+    }
+  }, 100);
+
+})();
+
 // ─── URL GÖZLEMCİSİ ──────────────────────────────────────────────────────────
  
 const urlGozlemcisi = new IntersectionObserver((entries) => {
