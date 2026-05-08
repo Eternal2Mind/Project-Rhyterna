@@ -360,6 +360,18 @@ const urlGozlemcisi = new IntersectionObserver((entries) => {
  
 document.querySelectorAll('section').forEach(s => urlGozlemcisi.observe(s));
  
+// ─── SCROLL OK ───────────────────────────────────────────────────────────────
+
+const scrollOk = document.querySelector('.scroll-ok');
+const ana = document.querySelector('.ana');
+
+if (scrollOk && ana) {
+  ana.addEventListener('scroll', () => {
+    const opacity = Math.max(0, 1 - Math.max(0, ana.scrollTop - 40) / 80);
+    scrollOk.style.opacity = opacity;
+  }, { passive: true });
+}
+
 // ─── FEEDBACK FORMU ───────────────────────────────────────────────────────────
  
 async function handleSend() {
