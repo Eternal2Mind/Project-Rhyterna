@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MainContent from '../../components/MainContent.astro';
+import { getStrings } from '../../i18n/ui';
+
+const lang = 'tr';
+const t = getStrings(lang);
+---
+<BaseLayout lang={lang} t={t}>
+  <MainContent t={t} />
+</BaseLayout>

@@ -7,3 +7,9 @@ Thumbs.db
 
 # Editor temp
 *.swp
+
+# Dependencies & build output
+node_modules/
+dist/
+.astro/
+npm-debug.log*

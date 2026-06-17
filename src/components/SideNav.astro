@@ -1,0 +1,36 @@
+---
+import type { UIStrings } from '../i18n/ui';
+
+interface Props {
+  t: UIStrings;
+}
+
+const { t } = Astro.props;
+---
+<nav id="nav-bar">
+
+  <div class="nav-segment" id="seg-0" data-target="home">
+    <a href="#home">
+      <span class="nav-text"><b>{t.nav.home}</b></span>
+    </a>
+  </div>
+
+  <div class="nav-segment" id="seg-1" data-target="lex-rhyterna">
+    <a href="#lex-rhyterna">
+      <span class="nav-text"><b>{t.nav.lex}</b></span>
+    </a>
+  </div>
+
+  <div class="nav-segment" id="seg-2" data-target="devlog">
+    <a href="#devlog">
+      <span class="nav-text"><b>{t.nav.devlog}</b></span>
+    </a>
+  </div>
+
+  <div class="nav-segment" id="seg-3" data-target="social">
+    <a href="#social">
+      <span class="nav-text"><b>{t.nav.contact}</b></span>
+    </a>
+  </div>
+
+</nav>

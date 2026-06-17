@@ -1,0 +1,40 @@
+---
+import type { UIStrings } from '../i18n/ui';
+import FeedbackForm from './FeedbackForm.astro';
+import SocialCards from './SocialCards.astro';
+import VersionTag from './VersionTag.astro';
+
+interface Props {
+  t: UIStrings;
+}
+
+const { t } = Astro.props;
+---
+<main class="ana">
+
+  <!-- HOME -->
+  <section id="home" class="bolum">
+  </section>
+
+  <!-- LEX RHYTERNA -->
+  <section id="lex-rhyterna" class="bolum">
+    <h2>{t.sections.lex}</h2>
+  </section>
+
+  <!-- DEVLOG -->
+  <section id="devlog" class="bolum">
+    <h2>{t.sections.devlog}</h2>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="social" class="bolum">
+    <div class="sosyal-alan">
+      <FeedbackForm t={t} />
+      <SocialCards t={t} />
+    </div>
+
+    <!-- VERSION TAG -->
+    <VersionTag />
+  </section>
+
+</main>

@@ -1,18 +1,28 @@
 {
   "name": "medyaindir-web",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    }
+  },
   "customizations": {
     "vscode": {
       "extensions": [
-        "ritwickdey.LiveServer"
+        "ritwickdey.LiveServer",
+        "astro-build.astro-vscode"
       ]
     }
   },
-  "forwardPorts": [5500],
+  "forwardPorts": [4321, 5500],
   "portsAttributes": {
-    "5500": {
+    "4321": {
+      "label": "Astro dev",
       "onAutoForward": "openBrowser"
+    },
+    "5500": {
+      "onAutoForward": "ignore"
     }
   },
-  "postCreateCommand": "curl -fsSL https://claude.ai/install.sh | bash"
+  "postCreateCommand": "curl -fsSL https://claude.ai/install.sh | bash && npm install"
 }

@@ -1,20 +1,39 @@
 /* ================================================
-   SEGMENT RENKLERİ — ID bazlı renk tanımları
+   COLOR PALETTE — single source for the recurring
+   brand colours. Each value is byte-identical to the
+   literal it replaces, so rendered output is unchanged.
+================================================ */
+
+:root {
+  --mint:    #00FFC3;              /* primary brand colour (text, logo) */
+  --cyan:    rgba(0, 238, 255, 1); /* accent */
+  --cyan-60: rgba(0, 238, 255, 0.6);
+  --cyan-50: rgba(0, 238, 255, 0.5);
+  --cyan-40: rgba(0, 238, 255, 0.4);
+  --cyan-20: rgba(0, 238, 255, 0.2);
+  --cyan-10: rgba(0, 238, 255, 0.1);
+  --cyan-00: rgba(0, 238, 255, 0);
+  --white:   rgba(255, 255, 255, 1);
+}
+
+
+/* ================================================
+   SEGMENT COLOURS — per-ID colour definitions
 ================================================ */
 
 #seg-0 { --seg-color: rgba(0, 255, 195, 1);   --seg-colort: rgba(0, 255, 195, 0.1); }
 #seg-1 { --seg-color: rgba(156, 71, 192, 1);  --seg-colort: rgba(156, 71, 192, 0.1); }
 #seg-2 { --seg-color: rgb(255, 251, 0);        --seg-colort: rgba(255, 251, 50, 0.1); }
-#seg-3 { --seg-color: rgba(0, 238, 255, 1);   --seg-colort: rgba(0, 238, 255, 0.1); }
+#seg-3 { --seg-color: var(--cyan);   --seg-colort: var(--cyan-10); }
 
-/* --- Üst segment renkleri (pasif) --- */
+/* --- Top segment colours (inactive) --- */
 
 .ust-seg[data-id="0"] { color: rgba(0, 255, 195, 0.3); }
 .ust-seg[data-id="1"] { color: rgba(156, 71, 192, 0.3); }
 .ust-seg[data-id="2"] { color: rgba(255, 251, 0, 0.3); }
 .ust-seg[data-id="3"] { color: rgba(0, 238, 255, 0.3); }
 
-/* --- Üst segment renkleri (aktif) --- */
+/* --- Top segment colours (active) --- */
 
 .ust-seg.aktif[data-id="0"] {
   color: rgba(0, 255, 195, 1);
@@ -38,14 +57,14 @@
 }
 
 .ust-seg.aktif[data-id="3"] {
-  color: rgba(0, 238, 255, 1);
+  color: var(--cyan);
   text-shadow: 0 0 12px rgba(0, 238, 255, 0.8);
   box-shadow: inset 0 -2px 0 rgba(0, 238, 255, 0.7);
 }
 
 
 /* ================================================
-   TEMEL RESET & SAYFA
+   BASE RESET & PAGE
 ================================================ */
 
 html {
@@ -68,7 +87,7 @@ body::-webkit-scrollbar {
 
 body {
   background-color: #000;
-  color: #00FFC3;
+  color: var(--mint);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
@@ -93,7 +112,7 @@ body::before {
   z-index: 0;
 }
 
-/* --- Sayfa geçiş overlay'i --- */
+/* --- Page transition overlay --- */
 
 .page-overlay {
   position: fixed;
@@ -135,7 +154,7 @@ body::before {
    LOGO
 ================================================ */
 
-/* --- Home logo kutusu --- */
+/* --- Home logo box --- */
 
 .home-logo-kutu {
   border: 1px solid rgba(0, 255, 195, 0.2);
@@ -173,7 +192,7 @@ body::before {
   filter: drop-shadow(0 0 16px rgba(0, 255, 195, 0.8));
 }
 
-/* --- Home logo resmi --- */
+/* --- Home logo image --- */
 
 .home-logo {
   width: clamp(200px, 35vw, 480px);
@@ -182,7 +201,7 @@ body::before {
   user-select: none;
 }
 
-/* --- Logo SVG metin animasyonu --- */
+/* --- Logo SVG text animation --- */
 
 .logo-text {
   transform-origin: center;
@@ -202,7 +221,7 @@ body::before {
               opacity 0.6s ease 2s;
 }
 
-/* --- Arka plan logo --- */
+/* --- Background logo --- */
 
 .home-bg-logo {
   position: fixed;
@@ -239,22 +258,22 @@ body::before {
 
 .home-bg-logo .logo-triangle,
 .home-bg-logo .logo-inner{
-  stroke: #00FFC3;
+  stroke: var(--mint);
   transition: stroke 0.6s ease;
 }
 
 .home-bg-logo .logo-dot {
-  fill: #00FFC3 !important;
+  fill: var(--mint) !important;
   stroke: none;
 }
 
 .home-bg-logo .logo-text path,
 .home-bg-logo .logo-text polygon {
-  fill: #00FFC3 !important;
+  fill: var(--mint) !important;
 }
 
 .home-bg-logo .logo-text {
-  fill: #00FFC3;
+  fill: var(--mint);
   transition: fill 0.6s ease, transform 0.6s ease, opacity 0.6s ease;
 }
 
@@ -267,7 +286,7 @@ body::before {
   stroke: #fff;
 }
 /* ================================================
-   LOGO ANİMASYONLARI
+   LOGO ANIMATIONS
 ================================================ */
 
 .logo-triangle {
@@ -301,7 +320,7 @@ body::before {
   animation: drawLine 0.08s ease-out forwards;
 }
 
-/* --- logo-inner gecikmeleri --- */
+/* --- logo-inner delays --- */
 
 .logo-anim-start .cls-25.logo-inner { animation-delay: 0.050s; }
 .logo-anim-start .cls-10.logo-inner { animation-delay: 0.120s; }
@@ -339,7 +358,7 @@ body::before {
 .logo-anim-start .cls-22.logo-inner { animation-delay: 0.830s; }
 .logo-anim-start .cls-21.logo-inner { animation-delay: 0.850s; }
 
-/* --- Keyframe tanımları --- */
+/* --- Keyframe definitions --- */
 @keyframes drawLine { to { stroke-dashoffset: 0; } }
 @keyframes triangleDraw { to { stroke-dashoffset: 0; } }
 @keyframes fadeInLine   { to { opacity: 1; } }
@@ -353,11 +372,11 @@ body::before {
   }
   70% { 
     transform: translateX(-50%) translateY(-12px);
-    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); /* aşağı inerken yavaşla */
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); /* slow down on the way down */
   }
   80% { 
     transform: translateX(-50%) translateY(0);
-    animation-timing-function: cubic-bezier(0.8, 0, 1, 1); /* yukarı çıkarken hızlan */
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1); /* speed up on the way up */
   }
   100% {}
 }
@@ -371,14 +390,14 @@ body::before {
   display: none;
   width: 16px;
   height: 16px;
-  background-color: #00FFC3;
+  background-color: var(--mint);
   border-radius: 50%;
   position: fixed;
   top: 0;
   left: 0;
   pointer-events: none;
   z-index: 9999;
-  box-shadow: 0 0 10px #00FFC3, 0 0 20px #00FFC3;
+  box-shadow: 0 0 10px var(--mint), 0 0 20px var(--mint);
   transition: transform 0.08s ease-out, opacity 0.15s ease-in-out, background-color 0.1s ease;
   will-change: left, top, transform;
 }
@@ -432,7 +451,7 @@ body::before {
 
 
 /* ================================================
-   ÜST BAR
+   TOP BAR
 ================================================ */
 
 .ust-bar {
@@ -511,7 +530,7 @@ body::before {
 }
 
 /* ================================================
-   SOSYAL ALAN & FEEDBACK
+   SOCIAL AREA & FEEDBACK
 ================================================ */
 
 .sosyal-alan {
@@ -520,7 +539,7 @@ body::before {
   box-sizing: border-box;
 }
 
-/* --- Feedback kutusu --- */
+/* --- Feedback box --- */
 
 .feedback {
   flex: 7;
@@ -543,11 +562,11 @@ body::before {
   box-shadow: 0 0 20px rgba(72, 255, 0, 0.3);
 }
 
-/* --- Feedback input/textarea border renkleri (aktif tab'a göre) --- */
+/* --- Feedback input/textarea border colours (per active tab) --- */
 
 .feedback:has(.fb-tab.aktif[data-tip="genel"])  .fb-input,
 .feedback:has(.fb-tab.aktif[data-tip="genel"])  .fb-textarea {
-  border-color: rgba(0, 238, 255, 0.4);
+  border-color: var(--cyan-40);
   transition: border-color 0.1s ease;
 }
 
@@ -567,7 +586,7 @@ body::before {
 
 .fb-tabs {
   display: flex;
-  border-bottom: 1px solid rgba(0, 238, 255, 0.2);
+  border-bottom: 1px solid var(--cyan-20);
 }
 
 .fb-tab {
@@ -577,7 +596,7 @@ body::before {
   font-size: 11px;
   font-weight: bold;
   letter-spacing: 1.5px;
-  color: rgba(0, 238, 255, 1);
+  color: var(--cyan);
   cursor: none;
   border: none;
   background: transparent;
@@ -592,11 +611,11 @@ body::before {
 }
 
 .fb-tab.aktif[data-tip="genel"] {
-  color: rgba(0, 238, 255, 1);
+  color: var(--cyan);
   border-bottom-color: rgba(0, 238, 255, 0.8);
   background: rgba(0, 238, 255, 0.05);
-  text-shadow: 0 0 8px rgba(0, 238, 255, 0.5);
-  box-shadow: inset 0px -10px 10px rgba(0, 238, 255, 0.2);
+  text-shadow: 0 0 8px var(--cyan-50);
+  box-shadow: inset 0px -10px 10px var(--cyan-20);
 }
 
 .fb-tab.aktif[data-tip="oneri"] {
@@ -622,7 +641,7 @@ body::before {
   background: transparent;
   border: 1px solid;
   border-radius: 6px;
-  color: rgba(0, 238, 255, 1);
+  color: var(--cyan);
   font-size: 12px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   outline: none;
@@ -640,12 +659,12 @@ body::before {
 }
 
 .fb-input::placeholder,
-.fb-textarea::placeholder { color: rgba(0, 238, 255, 0.6); }
+.fb-textarea::placeholder { color: var(--cyan-60); }
 
 .fb-input:focus,
-.fb-textarea:focus { border-color: rgba(0, 238, 255, 0.6); }
+.fb-textarea:focus { border-color: var(--cyan-60); }
 
-/* --- Feedback footer (captcha + gönder) --- */
+/* --- Feedback footer (captcha + send) --- */
 
 .fb-footer {
   display: flex;
@@ -664,7 +683,7 @@ body::before {
   align-items: center;
 }
 
-/* --- Cloudflare Turnstile gizleme --- */
+/* --- Cloudflare Turnstile (hidden) --- */
 
 .cf-turnstile {
   width: 0 !important;
@@ -680,22 +699,22 @@ body::before {
   height: 0 !important;
 }
 
-/* --- Captcha kutusu --- */
+/* --- Captcha box --- */
 
 .captcha-box {
   gap: 8px;
-  border: 1px solid rgba(255, 255, 255, 1);
+  border: 1px solid var(--white);
   border-radius: 6px;
   font-size: 10px;
   letter-spacing: 1px;
-  color: rgba(255, 255, 255, 1);
+  color: var(--white);
 }
 
 .captcha-dot {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 1);
+  border: 1px solid var(--white);
   transition:
     border-color 0.3s ease,
     background 0.3s ease,
@@ -715,7 +734,7 @@ body::before {
   box-shadow: 0 0 8px rgba(0, 255, 100, 0.6);
 }
 
-/* --- Gönder butonu --- */
+/* --- Send button --- */
 
 .send-btn {
   border: 1px solid rgba(0, 255, 132, 0.4);
@@ -740,7 +759,7 @@ body::before {
   background: rgba(0, 255, 195, 0.07);
 }
 
-/* --- Başarı mesajı --- */
+/* --- Success message --- */
 
 .success-msg {
   position: absolute;
@@ -756,7 +775,7 @@ body::before {
 
 
 /* ================================================
-   SOSYAL KARTLAR
+   SOCIAL CARDS
 ================================================ */
 
 .socials {
@@ -800,7 +819,7 @@ body::before {
 .social-sep {
   width: 1px;
   height: 55%;
-  background: rgba(0, 238, 255, 0.2);
+  background: var(--cyan-20);
   flex-shrink: 0;
   transition: background 0.3s ease;
 }
@@ -820,7 +839,7 @@ body::before {
   font-size: 9px;
   font-weight: bold;
   letter-spacing: 2px;
-  color: rgba(0, 238, 255, 0);
+  color: var(--cyan-00);
   white-space: nowrap;
   transition: color 0.35s ease;
 }
@@ -840,7 +859,7 @@ body::before {
   font-size: 11px;
   font-weight: bold;
   letter-spacing: 1px;
-  color: rgba(0, 238, 255, 0);
+  color: var(--cyan-00);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -855,7 +874,7 @@ body::before {
 
 
 /* ================================================
-   VERSİYON ETİKETİ
+   VERSION TAG
 ================================================ */
 
 .versiyon-etiket {
@@ -871,11 +890,11 @@ body::before {
   transition: color 0.3s ease;
 }
 
-.versiyon-etiket:hover { color: rgba(0, 238, 255, 0.5); }
+.versiyon-etiket:hover { color: var(--cyan-50); }
 
 
 /* ================================================
-   LANDSCAPE (PC / PC dar ekran)
+   LANDSCAPE (PC / narrow PC)
 ================================================ */
 
 @media (orientation: landscape) {
@@ -1050,25 +1069,25 @@ body::before {
 
   .social-card:hover {
     flex: 2.4;
-    border-color: rgba(0, 238, 255, 0.6);
+    border-color: var(--cyan-60);
     background: rgba(0, 238, 255, 0.08);
-    box-shadow: 0 0 16px rgba(0, 238, 255, 0.1);
+    box-shadow: 0 0 16px var(--cyan-10);
   }
 
-  .social-card:hover .social-sep      { background: rgba(0, 238, 255, 0.4); }
-  .social-card:hover .social-platform { color: rgba(0, 238, 255, 0.5); }
+  .social-card:hover .social-sep      { background: var(--cyan-40); }
+  .social-card:hover .social-platform { color: var(--cyan-50); }
   .social-card:hover .social-desc     { opacity: 0; transform: translateY(-6px); }
 
   .social-card:hover .social-username {
     opacity: 1;
     transform: translateY(0);
     color: rgba(0, 238, 255, 0.95);
-    text-shadow: 0 0 8px rgba(0, 238, 255, 0.4);
+    text-shadow: 0 0 8px var(--cyan-40);
   }
 }
 
 /* ================================================
-   PORTRAIT — İMLEÇ VAR (dar pencere PC / klavyeli tablet)
+   PORTRAIT — HAS POINTER (narrow PC / keyboard tablet)
 ================================================ */
 
 @media (orientation: portrait) and (hover: hover) {
@@ -1177,26 +1196,26 @@ body::before {
 
   .social-card:hover {
     flex: 2.4;
-    border-color: rgba(0, 238, 255, 0.6);
+    border-color: var(--cyan-60);
     background: rgba(0, 238, 255, 0.08);
-    box-shadow: 0 0 16px rgba(0, 238, 255, 0.1);
+    box-shadow: 0 0 16px var(--cyan-10);
   }
 
-  .social-card:hover .social-sep      { background: rgba(0, 238, 255, 0.4); }
-  .social-card:hover .social-platform { color: rgba(0, 238, 255, 0.5); }
+  .social-card:hover .social-sep      { background: var(--cyan-40); }
+  .social-card:hover .social-platform { color: var(--cyan-50); }
   .social-card:hover .social-desc     { opacity: 0; transform: translateY(-6px); }
 
   .social-card:hover .social-username {
     opacity: 1;
     transform: translateY(0);
     color: rgba(0, 238, 255, 0.95);
-    text-shadow: 0 0 8px rgba(0, 238, 255, 0.4);
+    text-shadow: 0 0 8px var(--cyan-40);
   }
 }
 
 
 /* ================================================
-   PORTRAIT — MOBİL (dokunmatik, imleç yok)
+   PORTRAIT — MOBILE (touch, no pointer)
 ================================================ */
 
 @media (orientation: portrait) and (hover: none) {
@@ -1312,5 +1331,5 @@ body::before {
   .social-info { display: flex; }
 
   .social-platform,
-  .social-username { color: rgba(0, 238, 255, 0); }
+  .social-username { color: var(--cyan-00); }
 }

@@ -1,0 +1,54 @@
+---
+import type { UIStrings } from '../i18n/ui';
+import TopBarLogo from '../components/TopBarLogo.astro';
+import HomeLogo from '../components/HomeLogo.astro';
+import ScrollIndicator from '../components/ScrollIndicator.astro';
+import SideNav from '../components/SideNav.astro';
+import PortraitBar from '../components/PortraitBar.astro';
+import '../styles/style.css';
+
+interface Props {
+  lang: string;
+  t: UIStrings;
+}
+
+const { lang, t } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>ETERAEON</title>
+  <link rel="icon" type="image/svg+xml" href="/Assets/Images/whminilogo.svg" />
+  <script is:inline async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+</head>
+<body>
+
+  <!-- ========================= TOP BAR ========================= -->
+  <TopBarLogo />
+
+  <!-- ========================= BACKGROUND LOGO ========================= -->
+  <HomeLogo />
+
+  <ScrollIndicator />
+
+  <!-- ========================= LEFT NAV ========================= -->
+  <SideNav t={t} />
+
+  <!-- ========================= PORTRAIT (MOBILE) TOP BAR ========================= -->
+  <PortraitBar t={t} />
+
+  <!-- ========================= MAIN CONTENT ========================= -->
+  <slot />
+
+  <!-- ========================= GLOBAL ELEMENTS ========================= -->
+  <div class="page-overlay" aria-hidden="true"></div>
+  <div class="cursor-follower" aria-hidden="true"></div>
+
+  <script>
+    import '../scripts/main.ts';
+  </script>
+
+</body>
+</html>

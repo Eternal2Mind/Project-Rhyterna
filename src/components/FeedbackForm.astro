@@ -1,0 +1,62 @@
+---
+import type { UIStrings } from '../i18n/ui';
+import { TURNSTILE_SITEKEY } from '../config/site';
+
+interface Props {
+  t: UIStrings;
+}
+
+const { t } = Astro.props;
+---
+<div class="feedback" id="feedback-box">
+  <div class="fb-tabs">
+    <button class="fb-tab aktif" data-tip="genel" data-placeholder={t.feedback.placeholders.general}>
+      {t.feedback.tabs.general}
+    </button>
+    <button class="fb-tab" data-tip="oneri" data-placeholder={t.feedback.placeholders.suggest}>
+      {t.feedback.tabs.suggest}
+    </button>
+    <button class="fb-tab" data-tip="hata" data-placeholder={t.feedback.placeholders.bug}>
+      {t.feedback.tabs.bug}
+    </button>
+  </div>
+
+  <div class="fb-body">
+    <input
+      class="fb-input cursor-text-el"
+      type="text"
+      id="fb-name"
+      placeholder={t.feedback.placeholders.name}
+    />
+    <textarea
+      class="fb-textarea cursor-text-el"
+      id="fb-msg"
+      placeholder={t.feedback.placeholders.general}
+    ></textarea>
+
+    <div class="fb-footer">
+      <!-- Simple captcha indicator -->
+      <div class="captcha-box" id="captcha-box">
+        <div class="captcha-dot" id="captcha-dot"></div>
+        <span id="captcha-text">{t.captcha.label}</span>
+      </div>
+
+      <!-- Cloudflare Turnstile -->
+      <div
+        class="cf-turnstile"
+        data-sitekey={TURNSTILE_SITEKEY}
+        data-execution="render"
+        data-appearance="always"
+        data-callback="onTurnstileSuccess"
+        data-error-callback="onTurnstileError"
+        data-expired-callback="onTurnstileExpired"
+        style="display: none;"
+      ></div>
+
+      <div>
+        <span class="success-msg" id="success-msg">{t.feedback.successMsg}</span>
+        <button class="send-btn" id="send-btn">{t.feedback.send}</button>
+      </div>
+    </div>
+  </div>
+</div>
